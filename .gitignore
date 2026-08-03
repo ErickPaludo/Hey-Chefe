@@ -1,0 +1,5 @@
+.env
+bin
+obj
+.vs
+Financ.UI.Api/.appsettings.json
