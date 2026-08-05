@@ -1,11 +1,5 @@
-﻿using Financ.Domain.Validacoes.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Financ.Domain.Validacoes.Categorias.Mensagens
+namespace HeyChefe.Domain.Validacoes.Categorias.Mensagens
 {
     public static class MensagensCategoria
     {

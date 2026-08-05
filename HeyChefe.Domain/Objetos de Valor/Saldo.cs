@@ -1,13 +1,7 @@
-﻿using Financ.Domain.Enums.Movimentações;
-using Financ.Domain.Validacoes;
-using Financ.Domain.Validacoes.Movimentações;
-using Financ.Domain.Validacoes.Movimentações.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
+﻿using HeyChefe.Domain.Validacoes;
+using HeyChefe.Domain.Validacoes.Item.Mensagens;
 
-namespace Financ.Domain.Objetos_de_Valor
+namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public sealed record Saldo
     {
@@ -26,19 +20,25 @@ namespace Financ.Domain.Objetos_de_Valor
 
         public Saldo Soma(Saldo saldo)
         {
-            ValidaNulo.Verifica(saldo, MensagensMovimentacao.VALOR_NULO);
+            ValidaNulo.Verifica(saldo, MensagemItem.VALOR_NULO);
             return new Saldo(Valor + saldo.Valor);
         }
 
         public Saldo Subtrai(Saldo saldo)
         {
-            ValidaNulo.Verifica(saldo, MensagensMovimentacao.VALOR_NULO);
+            ValidaNulo.Verifica(saldo, MensagemItem.VALOR_NULO);
             return new Saldo(Valor - saldo.Valor);
+        }
+
+        public Saldo Porcentagem(Saldo saldo)
+        {
+            ValidaNulo.Verifica(saldo, MensagemItem.VALOR_NULO);
+            return new Saldo(Valor + (saldo.Valor / 100));
         }
 
         private void ValidaValor(decimal valor)
         {
-            ValidaNulo.Verifica(valor, MensagensMovimentacao.VALOR_NULO);
+            ValidaNulo.Verifica(valor, MensagemItem.VALOR_NULO);
         }
     }
 }

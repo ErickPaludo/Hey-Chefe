@@ -1,13 +1,8 @@
-﻿using Financ.Domain.Entidades.Segurança;
-using Financ.Domain.Interfaces.Repositorios.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using HeyChefe.Domain.Entidades.Segurança;
+using HeyChefe.Domain.Interfaces.Repositorios.Base;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Financ.Domain.Interfaces.Repositorios.Segurança
+namespace HeyChefe.Domain.Interfaces.Repositorios.Segurança
 {
     public interface IAutenticacoesRepositorio : IBaseRepositorio<Autenticacao>
     {

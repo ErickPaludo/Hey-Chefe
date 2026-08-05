@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="HeyChefe/HeyChefe.csproj" />
+  <Project Path="HeyChefe.Domain/HeyChefe.Domain.csproj" />
+  <Project Path="HeyChefe.UnitTests.Domain/HeyChefe.UnitTests.Domain.csproj" />
 </Solution>

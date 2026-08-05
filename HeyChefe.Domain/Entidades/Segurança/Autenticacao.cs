@@ -1,14 +1,5 @@
-﻿using Financ.Domain.Entidades.Usuarios;
-using Financ.Domain.Validacoes.Segurança;
-using Financ.Domain.Validacoes.Segurança.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Financ.Domain.Entidades.Segurança
+namespace HeyChefe.Domain.Entidades.Segurança
 {
     public class Autenticacao
     {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
-namespace Financ.Domain.Validacoes
+namespace HeyChefe.Domain.Validacoes
 {
     public static class ValidaNulo
     {

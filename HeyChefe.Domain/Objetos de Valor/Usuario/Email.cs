@@ -1,11 +1,8 @@
-﻿using Financ.Domain.Validacoes.Usuarios;
-using Financ.Domain.Validacoes.Usuarios.Mensagens;
-using System;
-using System.Collections.Generic;
+using HeyChefe.Domain.Validacoes.Usuarios;
+using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
 using System.Net.Mail;
-using System.Text;
 
-namespace Financ.Domain.Objetos_de_Valor
+namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public sealed record Email
     {

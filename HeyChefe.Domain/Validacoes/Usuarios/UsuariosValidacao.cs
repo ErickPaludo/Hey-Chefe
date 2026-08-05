@@ -1,11 +1,6 @@
-﻿using Financ.Domain.Validacoes.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using HeyChefe.Domain.Validacoes.Base;
 
-namespace Financ.Domain.Validacoes.Usuarios
+namespace HeyChefe.Domain.Validacoes.Usuarios
 {
     public sealed class UsuariosValidacao : BaseValidacao
     {

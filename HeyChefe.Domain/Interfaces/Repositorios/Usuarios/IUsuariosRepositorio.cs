@@ -1,7 +1,7 @@
-﻿using Financ.Domain.Entidades.Usuarios;
-using Financ.Domain.Interfaces.Repositorios.Base;
+﻿using HeyChefe.Domain.Entidades.Usuarios;
+using HeyChefe.Domain.Interfaces.Repositorios.Base;
 
-namespace Financ.Domain.Interfaces.Repositorios.Usuarios
+namespace HeyChefe.Domain.Interfaces.Repositorios.Usuarios
 {
     public interface IUsuariosRepositorio : IBaseRepositorio<Usuario>
     {

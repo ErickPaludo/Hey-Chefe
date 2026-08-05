@@ -1,12 +1,6 @@
-﻿using Financ.Domain.Validacoes.Base;
-using Financ.Domain.Validacoes.Movimentações;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HeyChefe.Domain.Validacoes.Base;
 
-namespace Financ.Domain.Validacoes.Cor
+namespace HeyChefe.Domain.Validacoes.Cor
 {
     public class CorValidacao : BaseValidacao
     {

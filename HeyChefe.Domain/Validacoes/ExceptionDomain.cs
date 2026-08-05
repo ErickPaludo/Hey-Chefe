@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Financ.Domain.Validacoes
+namespace HeyChefe.Domain.Validacoes
 {
     public class ExceptionDomain : Exception
     {

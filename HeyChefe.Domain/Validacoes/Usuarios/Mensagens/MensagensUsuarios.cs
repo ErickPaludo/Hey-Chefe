@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Financ.Domain.Validacoes.Usuarios.Mensagens
+namespace HeyChefe.Domain.Validacoes.Usuarios.Mensagens
 {
     public static class MensagensUsuarios
     {
@@ -13,9 +8,13 @@ namespace Financ.Domain.Validacoes.Usuarios.Mensagens
         public const string NOME_MINIMO = "O nome não deve possuir menos do que 3 caracteres";
         public const string NOME_MAXIMO = "O nome não deve possuir mais do que 100 caracteres";
 
+        public const string PERMISSAO_NULA = "A permissão do usuário é obrigatória.";
+        public const string PERMISSAO_INVALIDA = "A permissão do usuário é inválida.";
+
         public const string EMAIL_OBRIGATORIO = "O email do usuário é obrigatório.";
         public const string EMAIL_MINIMO = "O email não deve possuir menos do que 6 caracteres";
         public const string EMAIL_MAXIMO = "O email não deve possuir mais do que 256 caracteres";
+        public const string SITUACAO_INVALIDA = "A situação do usuário é inválida.";
 
         public const string MESMA_SENHA = "Senhas identicas.";
         public const string SENHA_VAZIA = "Obrigatório informar uma senha.";

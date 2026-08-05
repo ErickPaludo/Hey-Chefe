@@ -1,38 +1,64 @@
-﻿using Financ.Domain.Objetos_de_Valor;
-using Financ.Domain.Validacoes;
-using Financ.Domain.Validacoes.Usuarios;
-using Financ.Domain.Validacoes.Usuarios.Mensagens;
-using System.Drawing;
+using HeyChefe.Domain.Entidades.Base;
+using HeyChefe.Domain.Entidades.Usuarios.Enums;
+using HeyChefe.Domain.Objetos_de_Valor;
+using HeyChefe.Domain.Validacoes;
+using HeyChefe.Domain.Validacoes.Usuarios;
+using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
 
-namespace Financ.Domain.Entidades.Usuarios
+namespace HeyChefe.Domain.Entidades.Usuarios
 {
     public sealed class Usuario : EntidadeBase
     {
-        public Nome Nome { get; }
-        public Email Endereco { get;}
+        public Nome Nome { get; private set; }
+        public Email Endereco { get; private set; }
         public Senha Senha { get; private set; }
-      
-        private Usuario(Nome nome, Email endereco, Senha senha)
+        public EPermissaoUsuario Permissao { get; private set; }
+        public ESituacaoUsuario Situacao { get; private set; }
+        private Usuario(Nome nome, Email endereco, Senha senha,EPermissaoUsuario permissao)
         {
             ValidaNulo.Verifica(nome, MensagensUsuarios.NOME_NULO);
             ValidaNulo.Verifica(endereco, MensagensUsuarios.EMAIL_NULO);
             ValidaNulo.Verifica(senha, MensagensUsuarios.SENHA_NULA);
 
+            ValidaPermissao(permissao);
+
             Nome = nome;
             Endereco = endereco;
             Senha = senha;
+            Permissao = permissao;
+            Situacao = ESituacaoUsuario.Ativo;
         }
- 
-        public static Usuario Create(Nome nome, Email endereco, Senha senha)
+        private void ValidaSituacao(ESituacaoUsuario situacao) => 
+            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoUsuario), situacao), MensagensUsuarios.SITUACAO_INVALIDA);
+        
+        private void ValidaPermissao(EPermissaoUsuario permissao) =>
+            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(EPermissaoUsuario), permissao), MensagensUsuarios.PERMISSAO_INVALIDA);
+        
+        public static Usuario Create(Nome nome, Email endereco, Senha senha,EPermissaoUsuario permissao) => 
+            new Usuario(nome, endereco, senha,permissao);
+
+        #region Atualiza
+        public void AtualizarNome(Nome nome)
         {
-            return new Usuario(nome, endereco, senha);
+            Nome = nome;
         }
 
-        public void AtualizaSenha(Senha senha)
+        public void AtualizarEndereco(Email endereco)
         {
-            ValidaNulo.Verifica(senha, MensagensUsuarios.SENHA_NULA);
-            UsuariosValidacao.Verifica(Senha == senha, MensagensUsuarios.MESMA_SENHA);
-            Senha = senha;
+            Endereco = endereco;
         }
+
+        public void AtualizarPermissao(EPermissaoUsuario permissao)
+        {
+            ValidaPermissao(permissao);
+            Permissao = permissao;
+        }
+
+        public void AtualizarSituacao(ESituacaoUsuario situacao)
+        {
+            ValidaSituacao(situacao);
+            Situacao = situacao;
+        }
+        #endregion
     }
 }

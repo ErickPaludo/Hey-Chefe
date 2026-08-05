@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Financ.Domain.Objetos_de_Valor
+namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public abstract record ObservacaoBase
     {

@@ -1,19 +1,12 @@
-﻿using Financ.Domain.Validacoes.Cor;
-using Financ.Domain.Validacoes.Cor.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using HeyChefe.Domain.Validacoes.Cor;
+using HeyChefe.Domain.Validacoes.Cor.Mensagens;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Financ.Domain.Objetos_de_Valor
+namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public sealed record Cor
     {
         public string Valor { get; private set; }
-        private Cor() { }
-
         private Cor(string valor)
         {
             ValidaCor(valor);

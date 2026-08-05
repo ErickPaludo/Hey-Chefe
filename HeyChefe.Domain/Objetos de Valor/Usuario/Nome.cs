@@ -1,8 +1,7 @@
-﻿using Financ.Domain.Validacoes;
-using Financ.Domain.Validacoes.Usuarios;
-using Financ.Domain.Validacoes.Usuarios.Mensagens;
+using HeyChefe.Domain.Validacoes.Usuarios;
+using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
 
-namespace Financ.Domain.Objetos_de_Valor
+namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public sealed record Nome
     {

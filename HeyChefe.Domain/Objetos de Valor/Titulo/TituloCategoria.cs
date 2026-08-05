@@ -1,12 +1,6 @@
-﻿using Financ.Domain.Validacoes.Base.Mensagens;
-using Financ.Domain.Validacoes.Categorias.Mensagens;
-using Financ.Domain.Validacoes.ContasBancarias;
-using Financ.Domain.Validacoes.ContasBancarias.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using HeyChefe.Domain.Validacoes.Base.Mensagens;
 
-namespace Financ.Domain.Objetos_de_Valor.Titulo
+namespace HeyChefe.Domain.Objetos_de_Valor.Titulo
 {
     public sealed record TituloCategoria : TituloBase
     {
@@ -15,7 +9,7 @@ namespace Financ.Domain.Objetos_de_Valor.Titulo
         public static TituloCategoria Create(string texto) => new(texto);
         protected override void Valida(string texto)
         {
-            ContasValidacao.Verifica(texto.Length < TamanhoMinimo || texto.Length > TamanhoMaximo, MensagensBase.TITULO_TAMANHO_INVALIDO(TamanhoMinimo,TamanhoMaximo));
+            //ContasValidacao.Verifica(texto.Length < TamanhoMinimo || texto.Length > TamanhoMaximo, MensagensBase.TITULO_TAMANHO_INVALIDO(TamanhoMinimo,TamanhoMaximo));
         }
     }
 }
