@@ -1,4 +1,5 @@
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
+using HeyChefe.Domain.Validacoes.Categorias;
 
 namespace HeyChefe.Domain.Objetos_de_Valor.Titulo
 {
@@ -9,7 +10,7 @@ namespace HeyChefe.Domain.Objetos_de_Valor.Titulo
         public static TituloCategoria Create(string texto) => new(texto);
         protected override void Valida(string texto)
         {
-            //ContasValidacao.Verifica(texto.Length < TamanhoMinimo || texto.Length > TamanhoMaximo, MensagensBase.TITULO_TAMANHO_INVALIDO(TamanhoMinimo,TamanhoMaximo));
+            CategoriaValidacao.Verifica(texto.Length < TamanhoMinimo || texto.Length > TamanhoMaximo, MensagensBase.TITULO_TAMANHO_INVALIDO(TamanhoMinimo,TamanhoMaximo));
         }
     }
 }

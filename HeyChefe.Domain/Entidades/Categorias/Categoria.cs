@@ -24,10 +24,12 @@ namespace HeyChefe.Domain.Entidades.Categorias
         #region Atualiza
         public void AlterarTitulo(TituloCategoria titulo)
         {
+            ValidaNulo.Verifica(titulo, MensagensBase.TITULO_OBRIGATORIO);
             Titulo = titulo;
         }
         public void AlterarCor(Cor cor)
         {
+            ValidaNulo.Verifica(cor, MensagensBase.COR_OBRIGATORIA);
             Cor = cor;
         }
         #endregion

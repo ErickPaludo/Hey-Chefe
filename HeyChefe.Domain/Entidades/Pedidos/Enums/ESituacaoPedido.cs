@@ -8,7 +8,6 @@ namespace HeyChefe.Domain.Entidades.Pedidos.Enums
     {
         Pendente,
         Iniciado,
-        Pronto,
         Concluido,
         Cancelado
     }

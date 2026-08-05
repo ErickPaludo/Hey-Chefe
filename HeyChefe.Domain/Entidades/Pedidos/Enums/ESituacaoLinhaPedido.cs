@@ -7,6 +7,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos.Enums
     public enum ESituacaoLinhaPedido
     {
         Pendente,
+        Pronto,
         Concluido,
         Cancelado
     }

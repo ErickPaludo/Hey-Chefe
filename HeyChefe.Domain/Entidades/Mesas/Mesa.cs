@@ -8,6 +8,7 @@ using HeyChefe.Domain.Validacoes.Base;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
 using HeyChefe.Domain.Validacoes.Mesas;
 using HeyChefe.Domain.Validacoes.Mesas.Mensagens;
+using HeyChefe.Domain.Validacoes.Pedidos.Mensagens;
 using HeyChefe.Domain.Validacoes.Usuarios;
 using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
 using System;
@@ -31,38 +32,53 @@ namespace HeyChefe.Domain.Entidades.Mesas
         public static Mesa Criar(Codigo codigo, ESituacaoMesa situacao) =>
             new Mesa(codigo, situacao);
 
+        public void OcuparMesa()
+        {
+            MesaValidacao.Verifica(Situacao != ESituacaoMesa.Disponivel, MensagemMesa.MESA_NAO_DISPONIVEL);
+            Situacao = ESituacaoMesa.Ocupada;
+        }
         public void AdicionarPedido(Pedido pedido)
         {
             MesaValidacao.Verifica(Situacao == ESituacaoMesa.LimpezaPendente, MensagemMesa.MESA_NAO_DISPONIVEL);
             Pedidos.Add(pedido);
             Situacao = ESituacaoMesa.Ocupada;
         }
+        public void RemovePedido(Pedido pedido)
+        {
+            MesaValidacao.Verifica(!Pedidos.Contains(pedido), MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA);
+            MesaValidacao.Verifica(!pedido.PermiteRemoverPedido(), MensagensPedido.PEDIDO_JA_INICIADO);
 
+             Pedidos.Remove(pedido);
+            Situacao = ESituacaoMesa.Ocupada;
+        }
+        public void AbandonoDeMesa(bool limparMesa)
+        {
+            AlteraSituacaoPedidos(ESituacaoPedido.Cancelado);
+            Situacao = limparMesa ? ESituacaoMesa.LimpezaPendente : ESituacaoMesa.Disponivel;
+        }
         public void FechamentoDeConta()
         {
             AlteraSituacaoPedidos(ESituacaoPedido.Concluido);
             Situacao = ESituacaoMesa.LimpezaPendente;
         }
-
-        public void AbandonoDeMesa(bool limparMesa)
+        public void AtualizarSituacao(ESituacaoMesa situacao)
         {
-            AlteraSituacaoPedidos(ESituacaoPedido.Cancelado);
-            Situacao = limparMesa ? ESituacaoMesa.LimpezaPendente : ESituacaoMesa.Disponivel;
+            MesaValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoMesa), situacao), MensagensBase.SITUACAO_INVALIDA);
+            Situacao = situacao;
         }
 
         private void AlteraSituacaoPedidos(ESituacaoPedido situacao)
         {
             foreach (var pedido in Pedidos)
             {
-                pedido.AtualizarSituacao(situacao);
+                if (situacao == ESituacaoPedido.Cancelado)
+                    pedido.SituacaoCancelado();
+
+                else if (situacao == ESituacaoPedido.Concluido)
+                    pedido.SituacaoConcluido();
             }
         }
 
-        public void AtualizarSituacao(ESituacaoMesa situacao)
-        {
-            MesaValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoMesa), situacao), MensagensBase.SITUACAO_INVALIDA);
-            Situacao = situacao;
-        }
 
     }
 }

@@ -29,5 +29,10 @@ namespace HeyChefe.Domain.Validacoes.Base.Mensagens
         public const string REMETENTE_NULO = "O remetente do convite não pode ser nulo.";
         public const string DESTINATARIO_NULO = "O destinatário do convite não pode ser nulo.";
         public const string ACESSO_INVALIDO = "Acesso inválido.";
+
+        public static string USUARIO_OBRIGATORIO => "O usuário é obrigatório.";
+
+        public static string PEDIDO_JA_INICIADO { get; internal set; }
+        public static string PEDIDO_CANCELADO { get; internal set; }
     }
 }

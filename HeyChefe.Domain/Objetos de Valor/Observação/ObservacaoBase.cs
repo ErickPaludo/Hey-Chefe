@@ -8,8 +8,12 @@ namespace HeyChefe.Domain.Objetos_de_Valor
 
         protected ObservacaoBase(string texto)
         {
-            if(!string.IsNullOrEmpty(texto)) texto = Prepara(texto);
-            Valida(texto);
+            if (!string.IsNullOrEmpty(texto))
+            {
+                texto = Prepara(texto);
+                Valida(texto);
+            }
+
             Texto = texto;
         }
 
