@@ -3,13 +3,10 @@ using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Objetos_de_Valor.Titulo;
 using HeyChefe.Domain.Validacoes;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace HeyChefe.UnitTests.Domain.Entitie
+namespace HeyChefe.UnitTests.Domain.Entities
 {
-    public class CategoriaTests
+    public class CategoriaTest
     {
         private static Codigo CodigoValido() => Codigo.Create(1);
         private static TituloCategoria TituloValido() => TituloCategoria.Create("Bebidas");

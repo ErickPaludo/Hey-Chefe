@@ -6,7 +6,7 @@ namespace HeyChefe.Domain.Objetos_de_Valor
     public sealed record Saldo
     {
         public decimal Valor { get; }
-
+        public Saldo() { }
         private Saldo(decimal valor)
         {
             ValidaValor(valor);

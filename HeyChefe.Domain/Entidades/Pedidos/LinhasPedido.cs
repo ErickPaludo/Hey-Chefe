@@ -31,7 +31,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
             Pedido = pedido;
             Item = item;
             Quantidade = quantidade;
-
+            Cortesia = cortesia;
             Situacao = ESituacaoLinhaPedido.Pendente;
         }
         private void ValidaQuantidade(int quantidade) =>

@@ -3,9 +3,11 @@ namespace HeyChefe.Domain.Objetos_de_Valor
 {
     public abstract record ObservacaoBase
     {
-        public virtual int TamanhoMaximo { get; } = 400;
+        public static readonly int MaxLenght = 400;
+        public virtual int TamanhoMaximo { get; } = MaxLenght;
         public string Texto { get; private set; }
 
+        protected ObservacaoBase() { }
         protected ObservacaoBase(string texto)
         {
             if (!string.IsNullOrEmpty(texto))

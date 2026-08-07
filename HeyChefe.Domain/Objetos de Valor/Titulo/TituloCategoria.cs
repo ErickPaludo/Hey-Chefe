@@ -5,7 +5,9 @@ namespace HeyChefe.Domain.Objetos_de_Valor.Titulo
 {
     public sealed record TituloCategoria : TituloBase
     {
-        protected override int TamanhoMaximo => 30;
+        public static readonly int MaxLenght = 30;
+        protected override int TamanhoMaximo => MaxLenght;
+        public TituloCategoria() { }
         private TituloCategoria(string texto) : base(texto){}
         public static TituloCategoria Create(string texto) => new(texto);
         protected override void Valida(string texto)

@@ -9,6 +9,7 @@ namespace HeyChefe.Domain.Objetos_de_Valor.Titulo
         public string Texto { get; }
         protected virtual int TamanhoMinimo { get; } = 2;
         protected abstract int TamanhoMaximo { get; }
+        protected TituloBase() { }
         protected TituloBase(string texto)
         {
             ValidaNulo.Verifica(texto, MensagensBase.TITULO_NULO);

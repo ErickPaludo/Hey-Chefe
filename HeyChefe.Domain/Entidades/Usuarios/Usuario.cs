@@ -9,12 +9,13 @@ namespace HeyChefe.Domain.Entidades.Usuarios
 {
     public sealed class Usuario : EntidadeBase
     {
-        public Nome Nome { get; private set; }
+        public NomeUsuario Nome { get; private set; }
         public Email Endereco { get; private set; }
         public Senha Senha { get; private set; }
         public EPermissaoUsuario Permissao { get; private set; }
         public ESituacaoUsuario Situacao { get; private set; }
-        private Usuario(Nome nome, Email endereco, Senha senha,EPermissaoUsuario permissao)
+        public Usuario() { }
+        private Usuario(NomeUsuario nome, Email endereco, Senha senha, EPermissaoUsuario permissao)
         {
             ValidaNulo.Verifica(nome, MensagensUsuarios.NOME_NULO);
             ValidaNulo.Verifica(endereco, MensagensUsuarios.EMAIL_NULO);
@@ -28,23 +29,19 @@ namespace HeyChefe.Domain.Entidades.Usuarios
             Permissao = permissao;
             Situacao = ESituacaoUsuario.Ativo;
         }
-        private void ValidaSituacao(ESituacaoUsuario situacao) => 
-            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoUsuario), situacao), MensagensUsuarios.SITUACAO_INVALIDA);
-        
-        private void ValidaPermissao(EPermissaoUsuario permissao) =>
-            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(EPermissaoUsuario), permissao), MensagensUsuarios.PERMISSAO_INVALIDA);
-        
-        public static Usuario Create(Nome nome, Email endereco, Senha senha,EPermissaoUsuario permissao) => 
-            new Usuario(nome, endereco, senha,permissao);
+        public static Usuario Create(NomeUsuario nome, Email endereco, Senha senha, EPermissaoUsuario permissao) =>
+            new Usuario(nome, endereco, senha, permissao);
 
         #region Atualiza
-        public void AtualizarNome(Nome nome)
+        public void AtualizarNome(NomeUsuario nome)
         {
+            ValidaNulo.Verifica(nome, MensagensUsuarios.NOME_NULO);
             Nome = nome;
         }
 
         public void AtualizarEndereco(Email endereco)
         {
+            ValidaNulo.Verifica(endereco, MensagensUsuarios.EMAIL_NULO);
             Endereco = endereco;
         }
 
@@ -56,9 +53,22 @@ namespace HeyChefe.Domain.Entidades.Usuarios
 
         public void AtualizarSituacao(ESituacaoUsuario situacao)
         {
-            ValidaSituacao(situacao);
+            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoUsuario), situacao), MensagensUsuarios.SITUACAO_INVALIDA);
             Situacao = situacao;
         }
+
+        public void AtualizarSenha(Senha senha)
+        {
+            ValidaNulo.Verifica(senha, MensagensUsuarios.SENHA_NULA);
+            Senha.AtualizaSenha(senha);
+            Senha = senha;
+        }
         #endregion
+        private void ValidaPermissao(EPermissaoUsuario permissao)
+        {
+            ValidaNulo.Verifica(permissao, MensagensUsuarios.PERMISSAO_NULA);
+            UsuariosValidacao.Verifica(!Enum.IsDefined(typeof(EPermissaoUsuario), permissao), MensagensUsuarios.PERMISSAO_INVALIDA);
+        }
+
     }
 }

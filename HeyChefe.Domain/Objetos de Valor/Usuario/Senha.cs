@@ -9,6 +9,7 @@ namespace HeyChefe.Domain.Objetos_de_Valor
         public string Salt { get; }
         public string Hash { get; }
 
+        public Senha() { }
         private Senha(string salt, string hash)
         {
             Salt = Preparar(salt);

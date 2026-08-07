@@ -7,11 +7,14 @@ namespace HeyChefe.Domain.Objetos_de_Valor
     public sealed record Email
     {
         public string Endereco { get; }
+        public static readonly int MaxEndereco = 256;
+        public static readonly int MinEndereco = 6;
         private Email(string endereco)
         {
             endereco = Prepara(endereco);
             Endereco = endereco;
         }
+        public Email() { }
         public static Email Create(string endereco)
         {
             return new Email(endereco);
@@ -28,8 +31,8 @@ namespace HeyChefe.Domain.Objetos_de_Valor
         private static void Valida(string email)
         {
             UsuariosValidacao.Verifica(email.Contains(" "), MensagensUsuarios.EMAIL_INVALIDO);
-            UsuariosValidacao.Verifica(email.Length < 6, MensagensUsuarios.EMAIL_MINIMO);
-            UsuariosValidacao.Verifica(email.Length > 256, MensagensUsuarios.EMAIL_MAXIMO);
+            UsuariosValidacao.Verifica(email.Length < MinEndereco, MensagensUsuarios.EMAIL_MINIMO);
+            UsuariosValidacao.Verifica(email.Length > MaxEndereco, MensagensUsuarios.EMAIL_MAXIMO);
             UsuariosValidacao.Verifica(!ValidaFormato(email), MensagensUsuarios.EMAIL_INVALIDO);
         }
 

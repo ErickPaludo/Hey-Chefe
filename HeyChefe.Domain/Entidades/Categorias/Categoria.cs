@@ -1,4 +1,5 @@
 using HeyChefe.Domain.Entidades.Base;
+using HeyChefe.Domain.Entidades.Itens;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Objetos_de_Valor.Titulo;
 using HeyChefe.Domain.Validacoes;
@@ -11,6 +12,7 @@ namespace HeyChefe.Domain.Entidades.Categorias
         public Codigo Codigo { get; private set; }
         public TituloCategoria Titulo { get; private set; }
         public Cor Cor { get; private set; }
+        public Categoria() { }
         private Categoria(Codigo codigo, TituloCategoria titulo, Cor cor)
         {
             ValidaNulo.Verifica(codigo,MensagensBase.CODIGO_OBRIGATORIO);

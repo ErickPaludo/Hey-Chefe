@@ -5,6 +5,7 @@ using HeyChefe.Domain.Entidades.Usuarios.Enums;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Objetos_de_Valor.Observação;
 using HeyChefe.Domain.Objetos_de_Valor.Titulo;
+using HeyChefe.Domain.Validacoes;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
 using HeyChefe.Domain.Validacoes.Item;
 using HeyChefe.Domain.Validacoes.Item.Mensagens;
@@ -16,16 +17,20 @@ namespace HeyChefe.Domain.Entidades.Itens
     public sealed class Item : EntidadeBase
     {
         public Codigo Codigo { get; private set; }
-        public ObservacaoItem Descricao { get; private set; }
         public TituloItem Nome { get; private set; }
+        public ObservacaoItem? Descricao { get; private set; }
         public Saldo PrecoVenda { get; private set; }
         public Saldo MargemLucro { get; private set; }
         public Saldo PrecoFinal => PrecoVenda.Porcentagem(MargemLucro);
         public Categoria? Categoria { get; private set; }
         public ESituacaoItem Situacao { get; set; }
 
-        private Item(Codigo codigo, ObservacaoItem descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro)
+        public Item() { }
+        private Item(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro)
         {
+            ValidaNulo.Verifica(codigo, MensagensBase.CODIGO_OBRIGATORIO);
+            ValidaNulo.Verifica(nome, MensagensBase.CODIGO_OBRIGATORIO);
+
             ValidaPreco(precoVenda);
             ValidaMargemLucro(margemLucro);
 
@@ -36,17 +41,26 @@ namespace HeyChefe.Domain.Entidades.Itens
             MargemLucro = margemLucro;
             Situacao = ESituacaoItem.Ativo;
         }
-        public static Item Create(Codigo codigo, ObservacaoItem descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro) =>
+        public static Item Create(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro) =>
             new Item(codigo, descricao, nome, precoVenda, margemLucro);
-        
-        private void ValidaPreco(Saldo preco) => ItemValidacao.Verifica(preco.Valor <= 0, MensagemItem.VALOR_INVALIDO);
-        private void ValidaMargemLucro(Saldo margemLucro) => ItemValidacao.Verifica(margemLucro.Valor < 0, MensagemItem.MARGEM_LUCRO_INVALIDA);
+
+        private void ValidaPreco(Saldo preco)
+        {
+            ValidaNulo.Verifica(preco, MensagensBase.PRECO_VENDA_NULO);
+            ItemValidacao.Verifica(preco.Valor <= 0, MensagemItem.VALOR_INVALIDO);
+        }
+        private void ValidaMargemLucro(Saldo margemLucro)
+        {
+            ValidaNulo.Verifica(margemLucro, MensagensBase.MARGEM_LUCRO_NULA);
+            ItemValidacao.Verifica(margemLucro.Valor < 0, MensagemItem.MARGEM_LUCRO_INVALIDA);
+        }
         #region Atualiza
         public void AtualizarNome(TituloItem nome)
         {
+            ValidaNulo.Verifica(nome, MensagensBase.CODIGO_OBRIGATORIO);
             Nome = nome;
         }
-        public void AtualizarDescricao(ObservacaoItem descricao)
+        public void AtualizarDescricao(ObservacaoItem? descricao)
         {
             Descricao = descricao;
         }

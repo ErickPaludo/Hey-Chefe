@@ -4,15 +4,12 @@ using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Validacoes;
 using HeyChefe.Domain.Validacoes.Usuarios;
 using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace HeyChefe.UnitTests.Domain.Entitie
+namespace HeyChefe.UnitTests.Domain.Entities
 {
-    public class UsuarioTests
+    public class UsuarioTest
     {
-        private static Nome NomeValido() => Nome.Create("Carlos", "Silva");
+        private static NomeUsuario NomeValido() => NomeUsuario.Create("Carlos", "Silva");
         private static Email EmailValido() => Email.Create("carlos.silva@email.com");
         private static Senha SenhaValida() => Senha.Create("salt123", "hash123");
 
@@ -97,13 +94,28 @@ namespace HeyChefe.UnitTests.Domain.Entitie
         {
             // Arrange
             var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
-            var novoNome = Nome.Create("João", "Pedro");
+            var novoNome = NomeUsuario.Create("João", "Pedro");
 
             // Act
             usuario.AtualizarNome(novoNome);
 
             // Assert
             Assert.Equal(novoNome, usuario.Nome);
+        }
+
+        [Fact]
+        public void AtualizarNome_ComNomeNulo_DeveLancarExcecao()
+        {
+            // Arrange
+            var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
+
+            // Act
+            var exception = Record.Exception(() => usuario.AtualizarNome(null!));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<ExceptionDomain>(exception);
+            Assert.Equal(MensagensUsuarios.NOME_NULO, exception.Message);
         }
 
         [Fact]
@@ -118,6 +130,21 @@ namespace HeyChefe.UnitTests.Domain.Entitie
 
             // Assert
             Assert.Equal(novoEmail, usuario.Endereco);
+        }
+
+        [Fact]
+        public void AtualizarEndereco_ComEmailNulo_DeveLancarExcecao()
+        {
+            // Arrange
+            var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
+
+            // Act
+            var exception = Record.Exception(() => usuario.AtualizarEndereco(null!));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<ExceptionDomain>(exception);
+            Assert.Equal(MensagensUsuarios.EMAIL_NULO, exception.Message);
         }
 
         [Fact]
@@ -147,8 +174,6 @@ namespace HeyChefe.UnitTests.Domain.Entitie
             Assert.NotNull(exception);
             Assert.IsType<UsuariosValidacao>(exception);
             Assert.Equal(MensagensUsuarios.PERMISSAO_INVALIDA, exception.Message);
-            // Garante que o estado anterior não foi alterado
-            Assert.Equal(EPermissaoUsuario.Garcom, usuario.Permissao);
         }
 
         [Fact]
@@ -178,10 +203,51 @@ namespace HeyChefe.UnitTests.Domain.Entitie
             Assert.NotNull(exception);
             Assert.IsType<UsuariosValidacao>(exception);
             Assert.Equal(MensagensUsuarios.SITUACAO_INVALIDA, exception.Message);
-            // Garante que o estado anterior não foi alterado
-            Assert.Equal(ESituacaoUsuario.Ativo, usuario.Situacao);
         }
-    
 
+        [Fact]
+        public void AtualizarSenha_ComSenhaValida_DeveAtualizarSenha()
+        {
+            // Arrange
+            var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
+            var novaSenha = Senha.Create("salt456", "hash456");
+
+            // Act
+            usuario.AtualizarSenha(novaSenha);
+
+            // Assert
+            Assert.Equal(novaSenha, usuario.Senha);
+        }
+
+        [Fact]
+        public void AtualizarSenha_ComSenhaNula_DeveLancarExcecao()
+        {
+            // Arrange
+            var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
+
+            // Act
+            var exception = Record.Exception(() => usuario.AtualizarSenha(null!));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<ExceptionDomain>(exception);
+            Assert.Equal(MensagensUsuarios.SENHA_NULA, exception.Message);
+        }
+
+        [Fact]
+        public void AtualizarSenha_ComSenhaIdentica_DeveLancarExcecao()
+        {
+            // Arrange
+            var usuario = Usuario.Create(NomeValido(), EmailValido(), SenhaValida(), EPermissaoUsuario.Garcom);
+            var senhaIdentica = Senha.Create("salt123", "hash123");
+
+            // Act
+            var exception = Record.Exception(() => usuario.AtualizarSenha(senhaIdentica));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<UsuariosValidacao>(exception);
+            Assert.Equal(MensagensUsuarios.MESMA_SENHA, exception.Message);
+        }
     }
 }

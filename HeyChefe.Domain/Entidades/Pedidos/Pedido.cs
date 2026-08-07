@@ -57,7 +57,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
         }
         public void SituacaoConcluido()
         {
-            PedidoValidacao.Verifica(Situacao != ESituacaoPedido.Cancelado, MensagensPedido.PEDIDO_CANCELADO);
+            PedidoValidacao.Verifica(Situacao == ESituacaoPedido.Cancelado, MensagensPedido.PEDIDO_CANCELADO);
             FechamentoPedido();
         }
         public void SituacaoCancelado()
@@ -69,8 +69,8 @@ namespace HeyChefe.Domain.Entidades.Pedidos
         private void FechamentoPedido()
         {
             PedidoValidacao.Verifica(LinhasPedido.Any(p => !p.Iniciado()), MensagensPedido.LINHAS_EM_ABERTO);
-            Fechamento = DateTime.UtcNow;
             Situacao = ESituacaoPedido.Concluido;
+            Fechamento = DateTime.UtcNow;
         }
         #endregion
         #region Prioridade
