@@ -59,6 +59,93 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.ToTable("tb_itens", (string)null);
                 });
 
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Mesas.Mesa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situação do usuário: 0-Disponivel | 1-Ocupada | 2-LimpezaPendente |3-Reservada");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tb_mesa", (string)null);
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhasPedido", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cortesia")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PedidoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situação do usuário: 0-Pendente | 1-Pronto | 2-Concluido |3-Cancelado");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("tb_linhas_pedidos", (string)null);
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Fechamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("MesaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Prioridade")
+                        .HasColumnType("int")
+                        .HasColumnName("Prioridade");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int")
+                        .HasComment("Situação do usuário: 0-Pendente | 1-Iniciado | 2-Concluido |3-Cancelado");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MesaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tb_pedidos", (string)null);
+                });
+
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Usuarios.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
@@ -268,6 +355,85 @@ namespace HeyChefe.Infra.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Mesas.Mesa", b =>
+                {
+                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Codigo", "Codigo", b1 =>
+                        {
+                            b1.Property<Guid>("MesaId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Valor")
+                                .HasColumnType("int")
+                                .HasColumnName("Codigo");
+
+                            b1.HasKey("MesaId");
+
+                            b1.HasIndex("Valor")
+                                .IsUnique();
+
+                            b1.ToTable("tb_mesa");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MesaId");
+                        });
+
+                    b.Navigation("Codigo")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhasPedido", b =>
+                {
+                    b.HasOne("HeyChefe.Domain.Entidades.Itens.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HeyChefe.Domain.Entidades.Pedidos.Pedido", null)
+                        .WithMany("LinhasPedido")
+                        .HasForeignKey("PedidoId");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
+                {
+                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", null)
+                        .WithMany("Pedidos")
+                        .HasForeignKey("MesaId");
+
+                    b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Codigo", "NumeroPedido", b1 =>
+                        {
+                            b1.Property<Guid>("PedidoId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Valor")
+                                .HasColumnType("int")
+                                .HasColumnName("NumeroPedido");
+
+                            b1.HasKey("PedidoId");
+
+                            b1.HasIndex("Valor")
+                                .IsUnique();
+
+                            b1.ToTable("tb_pedidos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PedidoId");
+                        });
+
+                    b.Navigation("NumeroPedido")
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Usuarios.Usuario", b =>
                 {
                     b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Email", "Endereco", b1 =>
@@ -345,6 +511,16 @@ namespace HeyChefe.Infra.Data.Migrations
 
                     b.Navigation("Senha")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Mesas.Mesa", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
+                {
+                    b.Navigation("LinhasPedido");
                 });
 #pragma warning restore 612, 618
         }

@@ -69,8 +69,6 @@ namespace HeyChefe.Infra.Data.ConfigTable
             .HasComment("Situação do usuário: 0-Ativo | 1-Inativo | 2-Excluído |3-Sem Estoque")
             .IsRequired();
 
-            builder.Property<Guid?>("CategoriaId"); //propriedade de chave estrangeira para Categoria, oculta.
-
             #region Chave Estrageira
             builder.HasOne(i => i.Categoria)
                 .WithMany()

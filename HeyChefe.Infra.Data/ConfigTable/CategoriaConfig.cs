@@ -46,9 +46,6 @@ namespace HeyChefe.Infra.Data.ConfigTable
                     .IsRequired();
                 }
             );
-
-            #region Indexes
-            #endregion
         }
     }
 }

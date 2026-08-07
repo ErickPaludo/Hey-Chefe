@@ -20,9 +20,9 @@ namespace HeyChefe.Infra.Data.Contexto
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-        //public DbSet<Mesa> Mesas { get; set; }
-        //public DbSet<Pedido> Pedidos { get; set; }
-        //public DbSet<LinhasPedido> LinhasPedidos { get; set; }
+        public DbSet<Mesa> Mesas { get; set; }
+        public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<LinhasPedido> LinhasPedidos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

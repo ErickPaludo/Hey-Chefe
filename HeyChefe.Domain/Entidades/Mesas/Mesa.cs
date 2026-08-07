@@ -22,6 +22,7 @@ namespace HeyChefe.Domain.Entidades.Mesas
         public Codigo Codigo { get; }
         public ESituacaoMesa Situacao { get; private set; }
         public List<Pedido> Pedidos { get; private set; } = new List<Pedido>();
+        public Mesa() { }
         private Mesa(Codigo codigo, ESituacaoMesa situacao)
         {
             MesaValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoMesa), situacao), MensagensBase.SITUACAO_INVALIDA);

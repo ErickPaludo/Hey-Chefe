@@ -19,6 +19,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
         public ESituacaoLinhaPedido Situacao { get; private set; }
         public int Quantidade { get; private set; }
         public bool Cortesia { get; private set; }
+        public LinhasPedido() { }
 
         private LinhasPedido(Pedido pedido, Item item, int quantidade,bool cortesia)
         {

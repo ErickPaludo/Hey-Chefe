@@ -22,7 +22,8 @@ namespace HeyChefe.Domain.Entidades.Pedidos
         public ESituacaoPedido Situacao { get; private set; }
         public Usuario Usuario { get; }
         public DateTime? Fechamento { get; private set; }
-        public List<LinhasPedido> LinhasPedido { get; private set; } = new List<LinhasPedido>();
+        public List<LinhasPedido> LinhasPedido { get; private set; }
+        public Pedido() { }
         private Pedido(Codigo numeroPedido, Usuario usuario, int prioridade)
         {
             ValidaNulo.Verifica(prioridade, MensagensPedido.PRIORIDADE_OBRIGATORIA);
