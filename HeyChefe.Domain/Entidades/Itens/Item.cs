@@ -19,14 +19,14 @@ namespace HeyChefe.Domain.Entidades.Itens
         public Codigo Codigo { get; private set; }
         public TituloItem Nome { get; private set; }
         public ObservacaoItem? Descricao { get; private set; }
-        public Saldo PrecoVenda { get; private set; }
+        public Saldo PrecoCusto { get; private set; }
         public Saldo MargemLucro { get; private set; }
-        public Saldo PrecoFinal => PrecoVenda.Porcentagem(MargemLucro);
+        public Saldo PrecoFinal => PrecoCusto.Porcentagem(MargemLucro);
         public Categoria? Categoria { get; private set; }
         public ESituacaoItem Situacao { get; set; }
 
         public Item() { }
-        private Item(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro)
+        private Item(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro,Categoria? categoria)
         {
             ValidaNulo.Verifica(codigo, MensagensBase.CODIGO_OBRIGATORIO);
             ValidaNulo.Verifica(nome, MensagensBase.CODIGO_OBRIGATORIO);
@@ -37,12 +37,13 @@ namespace HeyChefe.Domain.Entidades.Itens
             Codigo = codigo;
             Nome = nome;
             Descricao = descricao;
-            PrecoVenda = precoVenda;
+            PrecoCusto = precoVenda;
             MargemLucro = margemLucro;
+            Categoria = categoria;
             Situacao = ESituacaoItem.Ativo;
         }
-        public static Item Create(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro) =>
-            new Item(codigo, descricao, nome, precoVenda, margemLucro);
+        public static Item Create(Codigo codigo, ObservacaoItem? descricao, TituloItem nome, Saldo precoVenda, Saldo margemLucro,Categoria? categoria) =>
+            new Item(codigo, descricao, nome, precoVenda, margemLucro,categoria);
 
         private void ValidaPreco(Saldo preco)
         {
@@ -59,29 +60,35 @@ namespace HeyChefe.Domain.Entidades.Itens
         {
             ValidaNulo.Verifica(nome, MensagensBase.CODIGO_OBRIGATORIO);
             Nome = nome;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         public void AtualizarDescricao(ObservacaoItem? descricao)
         {
             Descricao = descricao;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         public void AtualizarPrecoVenda(Saldo precoVenda)
         {
             ValidaPreco(precoVenda);
-            PrecoVenda = precoVenda;
+            PrecoCusto = precoVenda;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         public void AtualizarMargemLucro(Saldo margemLucro)
         {
             ValidaMargemLucro(margemLucro);
             MargemLucro = margemLucro;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         public void AtualizarCategoria(Categoria? categoria)
         {
             Categoria = categoria;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         public void AtualizarSituacao(ESituacaoItem situacao)
         {
             ItemValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoItem), situacao), MensagensBase.SITUACAO_INVALIDA);
             Situacao = situacao;
+            DataHoraAlteracao = DateTime.UtcNow;
         }
         #endregion
     }

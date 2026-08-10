@@ -45,7 +45,7 @@ namespace HeyChefe.Infra.Data.ConfigTable
                }
             );
 
-            builder.OwnsOne(i => i.PrecoVenda,
+            builder.OwnsOne(i => i.PrecoCusto,
                precoVenda =>
                {
                    precoVenda.Property(x => x.Valor)

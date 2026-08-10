@@ -33,5 +33,8 @@ namespace HeyChefe.Domain.Validacoes.Base.Mensagens
         public static string MARGEM_LUCRO_NULA => "A margem de lucro não pode ser nula.";
 
         public static string USUARIO_OBRIGATORIO => "O usuário é obrigatório.";
+
+        public static string REFRESH_TOKEN_NULO => "O refresh token não pode ser nulo.";
+        public static string EXPIRATION_REFRESH_NULO => "O expiration refresh não pode ser nulo.";
     }
 }

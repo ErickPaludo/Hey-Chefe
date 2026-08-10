@@ -28,7 +28,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             // Assert
             Assert.NotNull(usuario);
             Assert.Equal(nome, usuario.Nome);
-            Assert.Equal(email, usuario.Endereco);
+            Assert.Equal(email, usuario.Email);
             Assert.Equal(senha, usuario.Senha);
             Assert.Equal(permissao, usuario.Permissao);
             Assert.Equal(ESituacaoUsuario.Ativo, usuario.Situacao);
@@ -129,7 +129,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             usuario.AtualizarEndereco(novoEmail);
 
             // Assert
-            Assert.Equal(novoEmail, usuario.Endereco);
+            Assert.Equal(novoEmail, usuario.Email);
         }
 
         [Fact]

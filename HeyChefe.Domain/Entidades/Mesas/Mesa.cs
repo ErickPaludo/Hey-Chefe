@@ -30,9 +30,11 @@ namespace HeyChefe.Domain.Entidades.Mesas
             Situacao = situacao;
         }
 
-        public static Mesa Criar(Codigo codigo, ESituacaoMesa situacao) =>
+        public static Mesa Create(Codigo codigo, ESituacaoMesa situacao) =>
             new Mesa(codigo, situacao);
 
+        public static Mesa Create(Codigo codigo) =>
+        new Mesa(codigo, ESituacaoMesa.Disponivel);
         public void OcuparMesa()
         {
             MesaValidacao.Verifica(Situacao != ESituacaoMesa.Disponivel, MensagemMesa.MESA_NAO_DISPONIVEL);

@@ -1,24 +1,36 @@
 using HeyChefe.Infra.IoC;
+using HeyChefe.UI.Api.Excessao;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.ConfigurarInjecaoSwagger(builder.Configuration);
+builder.Services.ConfigurarInjecaoPassword(builder.Configuration);
+builder.Services.ConfigurarInjecaoAutenticaoJWT(builder.Configuration);
 builder.Services.ConfigurarInjecaoInfraestrutura(builder.Configuration);
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.ConfigurarInjecaoServicos();
+builder.Services.ConfigurarInjecaoBibliotecas();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
+builder.Host.UseSerilog();
+
+builder.Services.AddExceptionHandler<ExcessaoGlobal>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
+app.UseExceptionHandler();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapOpenApi();
+
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

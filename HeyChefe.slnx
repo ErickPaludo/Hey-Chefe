@@ -1,7 +1,9 @@
 <Solution>
+  <Project Path="HeyChefe.Application/HeyChefe.Application.csproj" Id="efec39d9-fc26-45ab-9471-21a6d2186e1d" />
   <Project Path="HeyChefe.Domain/HeyChefe.Domain.csproj" />
   <Project Path="HeyChefe.Infra.Data/HeyChefe.Infra.Data.csproj" Id="b6fe5312-f3b3-44da-834f-f3ce4dd7c4f3" />
   <Project Path="HeyChefe.Infra.IoC/HeyChefe.Infra.IoC.csproj" Id="b7339dc1-aba9-4a21-b140-8ac17572e83a" />
+  <Project Path="HeyChefe.Infra.Security/HeyChefe.Infra.Security.csproj" />
   <Project Path="HeyChefe.UI.Api/HeyChefe.UI.Api.csproj" Id="10731504-7233-4500-9986-6200dc87dda9" />
   <Project Path="HeyChefe.UnitTests.Domain/HeyChefe.UnitTests.Domain.csproj" />
 </Solution>

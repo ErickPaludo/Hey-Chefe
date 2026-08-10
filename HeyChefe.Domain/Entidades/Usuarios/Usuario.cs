@@ -10,7 +10,7 @@ namespace HeyChefe.Domain.Entidades.Usuarios
     public sealed class Usuario : EntidadeBase
     {
         public NomeUsuario Nome { get; private set; }
-        public Email Endereco { get; private set; }
+        public Email Email { get; private set; }
         public Senha Senha { get; private set; }
         public EPermissaoUsuario Permissao { get; private set; }
         public ESituacaoUsuario Situacao { get; private set; }
@@ -24,7 +24,7 @@ namespace HeyChefe.Domain.Entidades.Usuarios
             ValidaPermissao(permissao);
 
             Nome = nome;
-            Endereco = endereco;
+            Email = endereco;
             Senha = senha;
             Permissao = permissao;
             Situacao = ESituacaoUsuario.Ativo;
@@ -42,7 +42,7 @@ namespace HeyChefe.Domain.Entidades.Usuarios
         public void AtualizarEndereco(Email endereco)
         {
             ValidaNulo.Verifica(endereco, MensagensUsuarios.EMAIL_NULO);
-            Endereco = endereco;
+            Email = endereco;
         }
 
         public void AtualizarPermissao(EPermissaoUsuario permissao)

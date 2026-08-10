@@ -1,39 +1,52 @@
 
+using HeyChefe.Domain.Entidades.Usuarios;
+using HeyChefe.Domain.Validacoes;
+using HeyChefe.Domain.Validacoes.Base.Mensagens;
+using HeyChefe.Domain.Validacoes.Segurança;
+using HeyChefe.Domain.Validacoes.Segurança.Mensagens;
+using HeyChefe.Domain.Validacoes.Usuarios;
+
 namespace HeyChefe.Domain.Entidades.Segurança
 {
     public class Autenticacao
     {
-        //public string IdSession { get; private set; }
-        //public string IdUsuario { get; private set; }
-        //public string? RefreshToken { get; private set; }
-        //public long? ExpirationRefresh { get; private set; }
-        //public bool Revoke { get; private set; } = false;
+        public string IdSession { get; private set; }
+        public string RefreshToken { get; private set; }
+        public long ExpirationRefresh { get; private set; }
+        public bool Revoke { get; private set; } = false;
 
-        //public Usuario Usuario { get; private set; }
+        public Usuario Usuario { get; private set; }
 
-        //public Autenticacao() { }
+        public Autenticacao() { }
 
-        //public Autenticacao(string idUsuario, string refreshToken, long expirationRefresh)
-        //{
-        //    IdSession = Guid.NewGuid().ToString();
-        //    IdUsuario = idUsuario;
-        //    RefreshToken = refreshToken;
-        //    ExpirationRefresh = expirationRefresh;
-        //}
-        //public void ValidaRefreshToken(string refreshToken)
-        //{
-        //    AutenticacaoValidacao.Verifica(string.IsNullOrEmpty(refreshToken) || RefreshToken is null || Revoke, MensagensAutenticacao.REFRESH_TOKEN_INVALIDO);
-        //}
-        //public void AtualizaRefreshToken(string refreshToken, long expirationRefresh)
-        //{
-        //    RefreshToken = refreshToken;
-        //    ExpirationRefresh = expirationRefresh;
-        //    Revoke = false;
-        //}
-        //public void RevokaToken()
-        //{
-        //    Revoke = true;
-        //}
+        public Autenticacao(Usuario usuario, string refreshToken, long expirationRefresh)
+        {
+            ValidaNulo.Verifica(usuario, MensagensBase.USUARIO_NULO);
+            ValidaNulo.Verifica(refreshToken, MensagensBase.REFRESH_TOKEN_NULO);
+            ValidaNulo.Verifica(expirationRefresh, MensagensBase.EXPIRATION_REFRESH_NULO);
+            IdSession = Guid.NewGuid().ToString();
+            Usuario = usuario;
+            RefreshToken = refreshToken;
+            ExpirationRefresh = expirationRefresh;
+        }
+        public void AtualizaRefreshToken(string refreshToken, long expirationRefresh)
+        {
+            ValidaNulo.Verifica(refreshToken, MensagensBase.REFRESH_TOKEN_NULO);
+            ValidaNulo.Verifica(expirationRefresh, MensagensBase.EXPIRATION_REFRESH_NULO);
+
+            RefreshToken = refreshToken;
+            ExpirationRefresh = expirationRefresh;
+            Revoke = false;
+        }
+        public void ValidaRefreshToken(string refreshToken)
+        {
+            AutenticacaoValidacao.Verifica(string.IsNullOrEmpty(refreshToken) ||
+        RefreshToken is null || Revoke, MensagensAutenticacao.REFRESH_TOKEN_INVALIDO);
+        }
+        public void RevokaToken()
+        {
+            Revoke = true;
+        }
 
     }
 }

@@ -27,7 +27,7 @@ namespace HeyChefe.Infra.Data.ConfigTable
                 }
             );
 
-            builder.OwnsOne(u => u.Endereco,
+            builder.OwnsOne(u => u.Email,
                 endereco =>
                 {
                     endereco.Property(x => x.Endereco)

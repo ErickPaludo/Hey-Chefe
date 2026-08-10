@@ -7,9 +7,9 @@ using System.Text;
 
 namespace HeyChefe.Infra.Data.ConfigTable
 {
-    public class LinhasPedidosConfig : IEntityTypeConfiguration<LinhasPedido>
+    public class LinhasPedidosConfig : IEntityTypeConfiguration<LinhaPedido>
     {
-        public void Configure(EntityTypeBuilder<LinhasPedido> builder)
+        public void Configure(EntityTypeBuilder<LinhaPedido> builder)
         {
             builder.ToTable("tb_linhas_pedidos");
 

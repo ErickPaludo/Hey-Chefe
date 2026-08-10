@@ -31,6 +31,9 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DataHoraRegistro")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("tb_categorias", (string)null);
@@ -46,6 +49,9 @@ namespace HeyChefe.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataHoraRegistro")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Situacao")
@@ -68,6 +74,9 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DataHoraRegistro")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Situacao")
                         .HasColumnType("int")
                         .HasComment("Situação do usuário: 0-Disponivel | 1-Ocupada | 2-LimpezaPendente |3-Reservada");
@@ -77,7 +86,7 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.ToTable("tb_mesa", (string)null);
                 });
 
-            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhasPedido", b =>
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhaPedido", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,6 +96,9 @@ namespace HeyChefe.Infra.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataHoraRegistro")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("ItemId")
@@ -120,6 +132,9 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<DateTime?>("DataHoraAlteracao")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DataHoraRegistro")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("Fechamento")
                         .HasColumnType("datetime2");
 
@@ -146,6 +161,31 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.ToTable("tb_pedidos", (string)null);
                 });
 
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Segurança.Autenticacao", b =>
+                {
+                    b.Property<string>("IdSession")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("ExpirationRefresh")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Revoke")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("IdSession");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("tb_autenticacao", (string)null);
+                });
+
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Usuarios.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
@@ -153,6 +193,9 @@ namespace HeyChefe.Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DataHoraAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataHoraRegistro")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Permissao")
@@ -282,7 +325,7 @@ namespace HeyChefe.Infra.Data.Migrations
                                 .HasForeignKey("ItemId");
                         });
 
-                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Saldo", "PrecoVenda", b1 =>
+                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Saldo", "PrecoCusto", b1 =>
                         {
                             b1.Property<Guid>("ItemId")
                                 .HasColumnType("uniqueidentifier");
@@ -351,7 +394,7 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Navigation("Nome")
                         .IsRequired();
 
-                    b.Navigation("PrecoVenda")
+                    b.Navigation("PrecoCusto")
                         .IsRequired();
                 });
 
@@ -381,7 +424,7 @@ namespace HeyChefe.Infra.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhasPedido", b =>
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.LinhaPedido", b =>
                 {
                     b.HasOne("HeyChefe.Domain.Entidades.Itens.Item", "Item")
                         .WithMany()
@@ -434,9 +477,20 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("HeyChefe.Domain.Entidades.Segurança.Autenticacao", b =>
+                {
+                    b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Usuarios.Usuario", b =>
                 {
-                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Email", "Endereco", b1 =>
+                    b.OwnsOne("HeyChefe.Domain.Objetos_de_Valor.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("UsuarioId")
                                 .HasColumnType("uniqueidentifier");
@@ -503,7 +557,7 @@ namespace HeyChefe.Infra.Data.Migrations
                                 .HasForeignKey("UsuarioId");
                         });
 
-                    b.Navigation("Endereco")
+                    b.Navigation("Email")
                         .IsRequired();
 
                     b.Navigation("Nome")

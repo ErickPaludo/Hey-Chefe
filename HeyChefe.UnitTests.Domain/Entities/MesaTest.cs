@@ -30,7 +30,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var situacao = ESituacaoMesa.Disponivel;
 
             // Act
-            var mesa = Mesa.Criar(codigo, situacao);
+            var mesa = Mesa.Create(codigo, situacao);
 
             // Assert
             Assert.NotNull(mesa);
@@ -47,7 +47,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var situacaoInvalida = (ESituacaoMesa)999;
 
             // Act
-            var exception = Record.Exception(() => Mesa.Criar(CodigoValido(), situacaoInvalida));
+            var exception = Record.Exception(() => Mesa.Create(CodigoValido(), situacaoInvalida));
 
             // Assert
             Assert.NotNull(exception);
@@ -59,7 +59,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void OcuparMesa_ComMesaDisponivel_DeveOcuparMesa()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
 
             // Act
             mesa.OcuparMesa();
@@ -72,7 +72,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void OcuparMesa_ComMesaOcupada_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Ocupada);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Ocupada);
 
             // Act
             var exception = Record.Exception(() => mesa.OcuparMesa());
@@ -87,7 +87,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void OcuparMesa_ComMesaLimpezaPendente_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.LimpezaPendente);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.LimpezaPendente);
 
             // Act
             var exception = Record.Exception(() => mesa.OcuparMesa());
@@ -102,7 +102,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void OcuparMesa_ComMesaReservada_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Reservada);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Reservada);
 
             // Act
             var exception = Record.Exception(() => mesa.OcuparMesa());
@@ -117,7 +117,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AdicionarPedido_ComMesaDisponivel_DeveAdicionarPedidoEOcuparMesa()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
 
             // Act
@@ -132,7 +132,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AdicionarPedido_ComMesaOcupada_DeveAdicionarPedido()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Ocupada);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Ocupada);
             var pedido = PedidoValido();
 
             // Act
@@ -147,7 +147,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AdicionarPedido_ComMesaLimpezaPendente_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.LimpezaPendente);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.LimpezaPendente);
             var pedido = PedidoValido();
 
             // Act
@@ -163,7 +163,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void RemovePedido_ComPedidoPertencendoAMesa_DeveRemoverPedido()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
             mesa.AdicionarPedido(pedido);
 
@@ -179,7 +179,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void RemovePedido_ComPedidoQueNaoPertenceAMesa_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
 
             // Act
@@ -195,7 +195,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AbandonoDeMesa_ComLimparMesaTrue_DeveCancelarPedidosESituacaoLimpezaPendente()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
             mesa.AdicionarPedido(pedido);
 
@@ -211,7 +211,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AbandonoDeMesa_ComLimparMesaFalse_DeveCancelarPedidosESituacaoDisponivel()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
             mesa.AdicionarPedido(pedido);
 
@@ -227,7 +227,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void FechamentoDeConta_DeveConcluirPedidosESituacaoLimpezaPendente()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = PedidoValido();
             mesa.AdicionarPedido(pedido);
 
@@ -244,7 +244,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarSituacao_ComSituacaoValida_DeveAtualizarSituacao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
 
             // Act
             mesa.AtualizarSituacao(ESituacaoMesa.Reservada);
@@ -257,7 +257,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarSituacao_ComSituacaoInvalida_DeveLancarExcecao()
         {
             // Arrange
-            var mesa = Mesa.Criar(CodigoValido(), ESituacaoMesa.Disponivel);
+            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var situacaoInvalida = (ESituacaoMesa)999;
 
             // Act

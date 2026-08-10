@@ -38,7 +38,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.Equal(codigo, item.Codigo);
             Assert.Equal(descricao, item.Descricao);
             Assert.Equal(nome, item.Nome);
-            Assert.Equal(precoVenda, item.PrecoVenda);
+            Assert.Equal(precoVenda, item.PrecoCusto);
             Assert.Equal(margemLucro, item.MargemLucro);
             Assert.Equal(ESituacaoItem.Ativo, item.Situacao);
         }
@@ -237,7 +237,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             item.AtualizarPrecoVenda(novoPreco);
 
             // Assert
-            Assert.Equal(novoPreco, item.PrecoVenda);
+            Assert.Equal(novoPreco, item.PrecoCusto);
         }
 
         [Fact]

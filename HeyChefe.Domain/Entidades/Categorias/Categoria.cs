@@ -23,6 +23,7 @@ namespace HeyChefe.Domain.Entidades.Categorias
             Cor = cor;
         }
         public static Categoria Create(Codigo codigo, TituloCategoria titulo, Cor cor) => new Categoria(codigo,titulo, cor);
+        public static Categoria Create(Codigo codigo, TituloCategoria titulo) => new Categoria(codigo,titulo, Cor.Create("#FFFFFF"));
         #region Atualiza
         public void AlterarTitulo(TituloCategoria titulo)
         {

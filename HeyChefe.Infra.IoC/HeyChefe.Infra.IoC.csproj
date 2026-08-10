@@ -7,8 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
+    <PackageReference Include="NetDevPack.SimpleMediator" Version="1.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HeyChefe.Domain\HeyChefe.Domain.csproj" />
     <ProjectReference Include="..\HeyChefe.Infra.Data\HeyChefe.Infra.Data.csproj" />
+    <ProjectReference Include="..\HeyChefe.Infra.Security\HeyChefe.Infra.Security.csproj" />
   </ItemGroup>
 
 </Project>
