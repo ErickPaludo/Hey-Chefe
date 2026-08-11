@@ -11,7 +11,7 @@ namespace HeyChefe.Infra.Data.ConfigTable
     {
         public void Configure(EntityTypeBuilder<Mesa> builder)
         {
-            builder.ToTable("tb_mesa");
+            builder.ToTable("tb_mesas");
             builder.HasKey(m => m.Id);
 
             builder.OwnsOne(i => i.Codigo,

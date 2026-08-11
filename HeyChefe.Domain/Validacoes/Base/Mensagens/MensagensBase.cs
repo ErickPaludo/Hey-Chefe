@@ -36,5 +36,7 @@ namespace HeyChefe.Domain.Validacoes.Base.Mensagens
 
         public static string REFRESH_TOKEN_NULO => "O refresh token não pode ser nulo.";
         public static string EXPIRATION_REFRESH_NULO => "O expiration refresh não pode ser nulo.";
+
+        public static string MESA_INVALIDA => "Mesa deve ser informada";
     }
 }

@@ -1,4 +1,4 @@
-﻿using HeyChefe.Domain.Entidades.Categorias;
+using HeyChefe.Domain.Entidades.Categorias;
 using HeyChefe.Domain.Entidades.Itens;
 using HeyChefe.Domain.Entidades.Itens.Enums;
 using HeyChefe.Domain.Objetos_de_Valor;
@@ -20,6 +20,9 @@ namespace HeyChefe.UnitTests.Domain.Entities
         private static Saldo MargemLucroValida() => Saldo.Create(10m);
         private static Categoria CategoriaValida() => Categoria.Create(Codigo.Create(1), TituloCategoria.Create("Lanches"), Cor.Create("#FF5733"));
 
+        private static Item ItemValido() =>
+            Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida(), null);
+
         [Fact]
         public void Create_ComDadosValidos_DeveCriarItemComSucesso()
         {
@@ -31,7 +34,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var margemLucro = MargemLucroValida();
 
             // Act
-            var item = Item.Create(codigo, descricao, nome, precoVenda, margemLucro);
+            var item = Item.Create(codigo, descricao, nome, precoVenda, margemLucro, null);
 
             // Assert
             Assert.NotNull(item);
@@ -40,14 +43,29 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.Equal(nome, item.Nome);
             Assert.Equal(precoVenda, item.PrecoCusto);
             Assert.Equal(margemLucro, item.MargemLucro);
+            Assert.Null(item.Categoria);
             Assert.Equal(ESituacaoItem.Ativo, item.Situacao);
+        }
+
+        [Fact]
+        public void Create_ComCategoriaValida_DeveDefinirCategoria()
+        {
+            // Arrange
+            var categoria = CategoriaValida();
+
+            // Act
+            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida(), categoria);
+
+            // Assert
+            Assert.NotNull(item);
+            Assert.Equal(categoria, item.Categoria);
         }
 
         [Fact]
         public void Create_SemDescricao_DeveCriarItemComDescricaoNula()
         {
             // Arrange & Act
-            var item = Item.Create(CodigoValido(), null, NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = Item.Create(CodigoValido(), null, NomeValido(), PrecoVendaValido(), MargemLucroValida(), null);
 
             // Assert
             Assert.NotNull(item);
@@ -55,10 +73,21 @@ namespace HeyChefe.UnitTests.Domain.Entities
         }
 
         [Fact]
+        public void Create_SemCategoria_DeveCriarItemComCategoriaNula()
+        {
+            // Arrange & Act
+            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida(), null);
+
+            // Assert
+            Assert.NotNull(item);
+            Assert.Null(item.Categoria);
+        }
+
+        [Fact]
         public void Create_ComMargemLucroZero_DeveCriarItemComSucesso()
         {
             // Arrange & Act
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), Saldo.Create(0m));
+            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), Saldo.Create(0m), null);
 
             // Assert
             Assert.NotNull(item);
@@ -70,7 +99,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(null!, DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida()));
+                Item.Create(null!, DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida(), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -83,7 +112,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), null!, PrecoVendaValido(), MargemLucroValida()));
+                Item.Create(CodigoValido(), DescricaoValida(), null!, PrecoVendaValido(), MargemLucroValida(), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -96,7 +125,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), null!, MargemLucroValida()));
+                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), null!, MargemLucroValida(), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -109,7 +138,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), null!));
+                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), null!, null));
 
             // Assert
             Assert.NotNull(exception);
@@ -122,7 +151,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(0m), MargemLucroValida()));
+                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(0m), MargemLucroValida(), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -135,7 +164,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(-5m), MargemLucroValida()));
+                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(-5m), MargemLucroValida(), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -148,7 +177,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             // Arrange & Act
             var exception = Record.Exception(() =>
-                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), Saldo.Create(-1m)));
+                Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), Saldo.Create(-1m), null));
 
             // Assert
             Assert.NotNull(exception);
@@ -160,7 +189,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void PrecoFinal_DeveCalcularPrecoVendaAcrescidoDaMargemLucro()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(100m), Saldo.Create(10m));
+            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(100m), Saldo.Create(10m), null);
 
             // Act
             var precoFinal = item.PrecoFinal;
@@ -171,10 +200,24 @@ namespace HeyChefe.UnitTests.Domain.Entities
         }
 
         [Fact]
+        public void PrecoFinal_ComMargemLucroZero_DeveRetornarPrecoCusto()
+        {
+            // Arrange
+            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), Saldo.Create(100m), Saldo.Create(0m), null);
+
+            // Act
+            var precoFinal = item.PrecoFinal;
+
+            // Assert
+            Assert.NotNull(precoFinal);
+            Assert.Equal(100m, precoFinal.Valor);
+        }
+
+        [Fact]
         public void AtualizarNome_ComNomeValido_DeveAtualizarNome()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             var novoNome = TituloItem.Create("X-Salada");
 
             // Act
@@ -182,13 +225,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Equal(novoNome, item.Nome);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarNome_ComNomeNulo_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             var exception = Record.Exception(() => item.AtualizarNome(null!));
@@ -203,7 +247,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarDescricao_ComDescricaoValida_DeveAtualizarDescricao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), null, NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = Item.Create(CodigoValido(), null, NomeValido(), PrecoVendaValido(), MargemLucroValida(), null);
             var novaDescricao = ObservacaoItem.Create("Com bacon extra");
 
             // Act
@@ -211,26 +255,28 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Equal(novaDescricao, item.Descricao);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarDescricao_ComDescricaoNula_DeveDefinirDescricaoNula()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             item.AtualizarDescricao(null);
 
             // Assert
             Assert.Null(item.Descricao);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarPrecoVenda_ComPrecoValido_DeveAtualizarPrecoVenda()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             var novoPreco = Saldo.Create(30m);
 
             // Act
@@ -238,13 +284,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Equal(novoPreco, item.PrecoCusto);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarPrecoVenda_ComPrecoNulo_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             var exception = Record.Exception(() => item.AtualizarPrecoVenda(null!));
@@ -259,7 +306,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarPrecoVenda_ComPrecoZero_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             var exception = Record.Exception(() => item.AtualizarPrecoVenda(Saldo.Create(0m)));
@@ -271,10 +318,25 @@ namespace HeyChefe.UnitTests.Domain.Entities
         }
 
         [Fact]
+        public void AtualizarPrecoVenda_ComPrecoNegativo_DeveLancarExcecao()
+        {
+            // Arrange
+            var item = ItemValido();
+
+            // Act
+            var exception = Record.Exception(() => item.AtualizarPrecoVenda(Saldo.Create(-5m)));
+
+            // Assert
+            Assert.NotNull(exception);
+            Assert.IsType<ItemValidacao>(exception);
+            Assert.Equal(MensagemItem.VALOR_INVALIDO, exception.Message);
+        }
+
+        [Fact]
         public void AtualizarMargemLucro_ComMargemValida_DeveAtualizarMargemLucro()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             var novaMargem = Saldo.Create(15m);
 
             // Act
@@ -282,13 +344,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Equal(novaMargem, item.MargemLucro);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarMargemLucro_ComMargemNula_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             var exception = Record.Exception(() => item.AtualizarMargemLucro(null!));
@@ -303,7 +366,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarMargemLucro_ComMargemNegativa_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             var exception = Record.Exception(() => item.AtualizarMargemLucro(Saldo.Create(-2m)));
@@ -318,7 +381,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AtualizarCategoria_ComCategoriaValida_DeveAtualizarCategoria()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             var categoria = CategoriaValida();
 
             // Act
@@ -326,13 +389,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Equal(categoria, item.Categoria);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarCategoria_ComCategoriaNula_DeveDefinirCategoriaNula()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             item.AtualizarCategoria(CategoriaValida());
 
             // Act
@@ -340,26 +404,28 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             // Assert
             Assert.Null(item.Categoria);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarSituacao_ComSituacaoValida_DeveAtualizarSituacao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
 
             // Act
             item.AtualizarSituacao(ESituacaoItem.Inativo);
 
             // Assert
             Assert.Equal(ESituacaoItem.Inativo, item.Situacao);
+            Assert.NotNull(item.DataHoraAlteracao);
         }
 
         [Fact]
         public void AtualizarSituacao_ComSituacaoInvalida_DeveLancarExcecao()
         {
             // Arrange
-            var item = Item.Create(CodigoValido(), DescricaoValida(), NomeValido(), PrecoVendaValido(), MargemLucroValida());
+            var item = ItemValido();
             var situacaoInvalida = (ESituacaoItem)999;
 
             // Act

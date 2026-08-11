@@ -5,5 +5,5 @@ using System.Text;
 
 namespace HeyChefe.Application.CQRS.Mesas.Command
 {
-    public record CriarMesaCommand(int Codigo) : IRequest<string>;
+    public record CriarMesaCommand(Guid UsuarioId, int Codigo) : IRequest<string>;
 }

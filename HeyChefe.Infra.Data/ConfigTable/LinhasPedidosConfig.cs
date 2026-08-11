@@ -20,11 +20,6 @@ namespace HeyChefe.Infra.Data.ConfigTable
                    .IsRequired();
 
             #region Chave Estrageira
-            //builder.HasOne(i => i.Pedido)
-            //    .WithMany()
-            //    .HasForeignKey("PedidoId")
-            //    .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(i => i.Item)
                 .WithMany()
                 .HasForeignKey("ItemId")

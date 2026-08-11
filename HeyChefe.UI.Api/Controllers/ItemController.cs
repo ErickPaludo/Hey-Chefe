@@ -2,6 +2,7 @@
 using HeyChefe.Application.CQRS.Itens.Query;
 using HeyChefe.Application.DTOs.Itens.Get;
 using HeyChefe.Application.DTOs.Itens.Post;
+using HeyChefe.UI.Api.Extensao;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace HeyChefe.UI.Api.Controllers
         [HttpPost("criar")]
         public async Task<IActionResult> CriarItem([FromBody] CriarItemDTO itemDTO)
         {
-            string retorno = await _mediator.Send(new CriarItemCommand(itemDTO.Codigo,itemDTO.Nome,itemDTO.Descricao,itemDTO.PrecoCusto,itemDTO.MargemLucro,itemDTO.CategoriaId));
+            string retorno = await _mediator.Send(new CriarItemCommand(User.GetId(), itemDTO.Codigo,itemDTO.Nome,itemDTO.Descricao,itemDTO.PrecoCusto,itemDTO.MargemLucro,itemDTO.CategoriaId));
             return Ok(retorno);
         }
         [HttpGet]

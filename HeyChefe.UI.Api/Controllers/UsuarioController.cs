@@ -27,11 +27,20 @@ namespace HeyChefe.UI.Api.Controllers
             var usuario = await _mediator.Send(new CadastraUsuarioCommand(usuarioDTO.Email, usuarioDTO.PrimeiroNome, usuarioDTO.SegundoNome, usuarioDTO.Senha, usuarioDTO.ConfirmarSenha));
             return Ok(usuario);
         }
+
+        [HttpPost("colaborador/registrar")]
+        [Authorize]
+        public async Task<IActionResult> RegistrarColaborador(CadastraUsuarioDTO usuarioDTO)
+        {
+            var usuario = await _mediator.Send(new CadastraColaboradorCommand(User.GetId(), usuarioDTO.Email, usuarioDTO.PrimeiroNome, usuarioDTO.SegundoNome, usuarioDTO.Senha, usuarioDTO.ConfirmarSenha));
+            return Ok(usuario);
+        }
+
         [HttpGet("me")]
         [Authorize]
         public async Task<IActionResult> MeusDados()
         {
-            var usuario = await _mediator.Send(new RetornaUsuarioPorIdQuery(User.RetornaIdUsuario()));
+            var usuario = await _mediator.Send(new RetornaUsuarioPorIdQuery(User.GetId()));
             return Ok(usuario);
         }
 
@@ -39,7 +48,7 @@ namespace HeyChefe.UI.Api.Controllers
         [Authorize]
         public async Task<IActionResult> AlterarSenha([FromBody] AlterarSenhaDTO senhaDTO)
         {
-            var usuario = await _mediator.Send(new AlterarSenhaCommand(User.RetornaIdUsuario(), senhaDTO.senhaAntiga, senhaDTO.senhaNova));
+            var usuario = await _mediator.Send(new AlterarSenhaCommand(User.GetId(), senhaDTO.senhaAntiga, senhaDTO.senhaNova));
             return Ok(usuario);
         }
     }

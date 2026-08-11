@@ -1,6 +1,9 @@
-﻿using HeyChefe.Application.CQRS.Itens.Command;
+﻿using HeyChefe.Application.Comun.Enums;
+using HeyChefe.Application.CQRS.Itens.Command;
+using HeyChefe.Application.Services.PermissoesUsuarios;
 using HeyChefe.Domain.Entidades.Categorias;
 using HeyChefe.Domain.Entidades.Itens;
+using HeyChefe.Domain.Entidades.Usuarios;
 using HeyChefe.Domain.Interfaces;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Objetos_de_Valor.Observação;
@@ -23,6 +26,8 @@ namespace HeyChefe.Application.CQRS.Itens.Handler
         }
         public async Task<string> Handle(CriarItemCommand request, CancellationToken cancellationToken)
         {
+            Usuario usuario = await _unitOfWork.ValidarUsuario(request.UsuarioId, PermissaoUsuario.CriarItem);
+
             //Validar se categoria existe
             Categoria? categoria = null;
             if (request.CategoriaId.HasValue)

@@ -43,6 +43,10 @@ namespace HeyChefe.Domain.Entidades.Mesas
         public void AdicionarPedido(Pedido pedido)
         {
             MesaValidacao.Verifica(Situacao == ESituacaoMesa.LimpezaPendente, MensagemMesa.MESA_NAO_DISPONIVEL);
+
+            if (Situacao == ESituacaoMesa.Disponivel)
+                OcuparMesa();
+
             Pedidos.Add(pedido);
             Situacao = ESituacaoMesa.Ocupada;
         }

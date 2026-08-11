@@ -23,15 +23,15 @@ namespace HeyChefe.UI.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CriarCategoria(CadastraCategoriaDTO categoriaDTO)
         {
-            var categoria = await _mediator.Send(new CriaCategoriaCommand(categoriaDTO.Codigo, categoriaDTO.Nome, categoriaDTO.cor));
+            var categoria = await _mediator.Send(new CriaCategoriaCommand(User.GetId(), categoriaDTO.Codigo, categoriaDTO.Nome, categoriaDTO.cor));
             return Ok(categoria);
         }
-        //[HttpGet]
-        //public async Task<IActionResult> RetornaCategorias(int idConta)
-        //{
-        //    var categoria = await _mediator.Send(new RetornaCategoriasQuery(idConta, User.RetornaIdUsuario()));
-        //    return categoria.RetornoAutomatico();
-        //}
+        [HttpGet]
+        public async Task<IActionResult> RetornaCategorias(int idConta)
+        {
+            var categoria = await _mediator.Send(new RetornaCategoriasQuery(User.GetId()));
+            return Ok(categoria);
+        }
         //[HttpPatch("/api/Contas/Categorias/{idCategoria}/Alterar")]
         //public async Task<IActionResult> AlterarCategoria(int idCategoria, [FromBody] AlterarCategoriaDTO categoriaDTO )
         //{

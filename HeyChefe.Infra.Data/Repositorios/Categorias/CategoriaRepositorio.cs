@@ -14,5 +14,12 @@ namespace HeyChefe.Infra.Data.Repositorios.Categorias
         {
             _contexto = contexto;
         }
+
+        public async Task<IEnumerable<Categoria>> RetornarTudo()
+        {
+            return await _contexto.Categorias
+                .OrderBy(x => x.Titulo.Texto)
+                .ToListAsync();
+        }
     }
 }

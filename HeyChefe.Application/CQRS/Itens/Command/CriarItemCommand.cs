@@ -5,5 +5,5 @@ using System.Text;
 
 namespace HeyChefe.Application.CQRS.Itens.Command
 {
-    public record CriarItemCommand(int Codigo, string Nome, string Descricao, decimal PrecoCusto, decimal MargemLucro, Guid? CategoriaId) : IRequest<string>;
+    public record CriarItemCommand(Guid UsuarioId,int Codigo, string Nome, string Descricao, decimal PrecoCusto, decimal MargemLucro, Guid? CategoriaId) : IRequest<string>;
 }

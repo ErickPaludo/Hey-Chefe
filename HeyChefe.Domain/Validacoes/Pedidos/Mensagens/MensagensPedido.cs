@@ -27,5 +27,7 @@ namespace HeyChefe.Domain.Validacoes.Pedidos.Mensagens
 
         public static string PEDIDO_CONCLUIDO => "O pedido foi concluído.";
         public static string PEDIDO_PRONTO => "O pedido está pronto para entrega.";
+
+        public static string LINHAS_INVALIDA => "A linha informada está nula.";
     }
 }

@@ -40,7 +40,7 @@ namespace HeyChefe.UI.Api.Controllers
         [Authorize]
         public async Task<IActionResult> Revoke()
         {
-            var tokenAutenticacao = await _mediator.Send(new RevokeCommand(User.RetornaIdUsuario()));
+            var tokenAutenticacao = await _mediator.Send(new RevokeCommand(User.GetId()));
             return Ok(tokenAutenticacao);
         }
 

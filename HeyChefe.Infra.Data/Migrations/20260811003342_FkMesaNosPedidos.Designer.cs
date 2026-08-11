@@ -4,6 +4,7 @@ using HeyChefe.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeyChefe.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260811003342_FkMesaNosPedidos")]
+    partial class FkMesaNosPedidos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,6 +144,9 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<Guid>("MesaId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("MesaId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Prioridade")
                         .HasColumnType("int")
                         .HasColumnName("Prioridade");
@@ -155,6 +161,8 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MesaId");
+
+                    b.HasIndex("MesaId1");
 
                     b.HasIndex("UsuarioId");
 
@@ -442,10 +450,14 @@ namespace HeyChefe.Infra.Data.Migrations
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
                 {
                     b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", "Mesa")
-                        .WithMany("Pedidos")
+                        .WithMany()
                         .HasForeignKey("MesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", null)
+                        .WithMany("Pedidos")
+                        .HasForeignKey("MesaId1");
 
                     b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
                         .WithMany()

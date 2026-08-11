@@ -10,7 +10,7 @@ namespace HeyChefe.Application.Mapeamento
 {
     public static class CategoriaMapper
     {
-        public static CategoriaDTO ParaDTO(Categoria categoria) => new CategoriaDTO(categoria.Id, categoria.Titulo.Texto, categoria.Cor.Valor);
+        public static CategoriaDTO ParaDTO(Categoria categoria) => new CategoriaDTO(categoria.Codigo.Valor, categoria.Id, categoria.Titulo.Texto, categoria.Cor.Valor);
         public static List<CategoriaDTO> ParaListDTO(IEnumerable<Categoria> categoria) => categoria.Select(ParaDTO).ToList();
 
     }

@@ -6,5 +6,6 @@ namespace HeyChefe.Domain.Interfaces.Repositorios.Categorias
 {
     public interface ICategoriaRepositorio : IBaseRepositorio<Categoria>
     {
+        Task<IEnumerable<Categoria>> RetornarTudo();
     }
 }

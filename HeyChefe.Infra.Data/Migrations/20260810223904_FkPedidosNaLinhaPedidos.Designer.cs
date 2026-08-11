@@ -4,6 +4,7 @@ using HeyChefe.Infra.Data.Contexto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeyChefe.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260810223904_FkPedidosNaLinhaPedidos")]
+    partial class FkPedidosNaLinhaPedidos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,7 +141,7 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<DateTime?>("Fechamento")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("MesaId")
+                    b.Property<Guid?>("MesaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Prioridade")
@@ -441,11 +444,9 @@ namespace HeyChefe.Infra.Data.Migrations
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
                 {
-                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", "Mesa")
+                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", null)
                         .WithMany("Pedidos")
-                        .HasForeignKey("MesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MesaId");
 
                     b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
                         .WithMany()
@@ -472,8 +473,6 @@ namespace HeyChefe.Infra.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("PedidoId");
                         });
-
-                    b.Navigation("Mesa");
 
                     b.Navigation("NumeroPedido")
                         .IsRequired();

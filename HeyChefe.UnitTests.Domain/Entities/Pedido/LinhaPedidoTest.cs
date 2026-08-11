@@ -28,7 +28,8 @@ namespace HeyChefe.UnitTests.Domain.Entities
             ObservacaoItem.Create("Sem cebola"),
             TituloItem.Create("X-Burger"),
             Saldo.Create(25m),
-            Saldo.Create(10m));
+            Saldo.Create(10m),
+            null);
 
         [Fact]
         public void Create_ComDadosValidos_DeveCriarLinhaPedidoComSucesso()

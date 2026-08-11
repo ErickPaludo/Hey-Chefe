@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace HeyChefe.Application.DTOs.Categoria.Get
 {
-    public record CategoriaDTO(Guid IdCategoria,string nome, string cor);
+    public record CategoriaDTO(int Codigo, Guid Id,string nome, string cor);
 }

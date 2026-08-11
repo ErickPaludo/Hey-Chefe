@@ -1,12 +1,15 @@
 ﻿using HeyChefe.Domain.Entidades.Base;
 using HeyChefe.Domain.Entidades.Itens;
 using HeyChefe.Domain.Entidades.Itens.Enums;
+using HeyChefe.Domain.Entidades.Mesas;
+using HeyChefe.Domain.Entidades.Mesas.Enums;
 using HeyChefe.Domain.Entidades.Pedidos.Enums;
 using HeyChefe.Domain.Entidades.Usuarios;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Validacoes;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
 using HeyChefe.Domain.Validacoes.Item;
+using HeyChefe.Domain.Validacoes.Mesas.Mensagens;
 using HeyChefe.Domain.Validacoes.Pedidos;
 using HeyChefe.Domain.Validacoes.Pedidos.Mensagens;
 using System;
@@ -18,30 +21,40 @@ namespace HeyChefe.Domain.Entidades.Pedidos
     public sealed class Pedido : EntidadeBase
     {
         public Codigo NumeroPedido { get; }
+        public Mesa Mesa { get; private set; }
         public int Prioridade { get; private set; }
         public ESituacaoPedido Situacao { get; private set; }
         public Usuario Usuario { get; }
         public DateTime? Fechamento { get; private set; }
-        public List<LinhaPedido> LinhasPedido { get; private set; }
+        public List<LinhaPedido> LinhasPedido { get; private set; } = new List<LinhaPedido>();
         public Pedido() { }
-        private Pedido(Codigo numeroPedido, Usuario usuario, int prioridade)
+        private Pedido(Codigo numeroPedido,Mesa mesa, Usuario usuario, int prioridade)
         {
             ValidaNulo.Verifica(prioridade, MensagensPedido.PRIORIDADE_OBRIGATORIA);
+            ValidaNulo.Verifica(mesa, MensagensBase.MESA_INVALIDA);
             ValidaNulo.Verifica(numeroPedido, MensagensBase.CODIGO_OBRIGATORIO);
             ValidaNulo.Verifica(usuario, MensagensBase.USUARIO_OBRIGATORIO);
 
-            Prioridade = prioridade;
             NumeroPedido = numeroPedido;
-            Situacao = ESituacaoPedido.Pendente;
+            Mesa = mesa;
             Usuario = usuario;
+            Prioridade = prioridade;
+            Situacao = ESituacaoPedido.Pendente;
+
+            Mesa.AdicionarPedido(this);
         }
 
-        public static Pedido Create(Codigo numeroPedido, Usuario usuario, int prioridade) =>
-            new Pedido(numeroPedido, usuario, prioridade);
+        public static Pedido Create(Codigo numeroPedido,Mesa mesa, Usuario usuario, int prioridade) =>
+            new Pedido(numeroPedido,mesa, usuario, prioridade);
 
-        public static Pedido Create(Codigo numeroPedido, Usuario usuario) =>
-            new Pedido(numeroPedido, usuario, 0);
+        public static Pedido Create(Codigo numeroPedido,Mesa mesa, Usuario usuario) =>
+            new Pedido(numeroPedido, mesa,usuario, 0);
 
+        public void AdicionaLinhasPedidos(LinhaPedido linha)
+        {
+            ValidaNulo.Verifica(linha, MensagensPedido.LINHAS_INVALIDA);
+            LinhasPedido.Add(linha);
+        }
         public bool PermiteRemoverPedido() => !LinhasPedido.Any(p => p.Iniciado());
         #region Atualização
         #region Situacao
@@ -72,15 +85,14 @@ namespace HeyChefe.Domain.Entidades.Pedidos
             PedidoValidacao.Verifica(LinhasPedido.Any(p => !p.Iniciado()), MensagensPedido.LINHAS_EM_ABERTO);
             Situacao = ESituacaoPedido.Concluido;
             Fechamento = DateTime.UtcNow;
+            Mesa.FechamentoDeConta();
         }
         #endregion
-        #region Prioridade
         public void AtualizarPrioridade(int prioridade)
         {
             ValidaNulo.Verifica(prioridade, MensagensPedido.PRIORIDADE_OBRIGATORIA);
             Prioridade = prioridade;
         }
-        #endregion
         #endregion
     }
 }

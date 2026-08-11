@@ -30,6 +30,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
 
             ValidaQuantidade(quantidade);
             Pedido = pedido;
+            pedido.AdicionaLinhasPedidos(this);
             Item = item;
             Quantidade = quantidade;
             Cortesia = cortesia;

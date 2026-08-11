@@ -24,6 +24,7 @@ namespace HeyChefe.Domain.Objetos_de_Valor
             UsuariosValidacao.Verifica(string.IsNullOrWhiteSpace(email), MensagensUsuarios.EMAIL_OBRIGATORIO);
 
             email = email.Trim();
+            email = email.ToLower();
             Valida(email);
             return email;
         }

@@ -10,5 +10,5 @@ using System.Threading.Tasks;
 
 namespace HeyChefe.Application.CQRS.Categorias.Command
 {
-    public record CriaCategoriaCommand(int Codigo,string Nome, string? Cor) : IRequest<string>;
+    public record CriaCategoriaCommand(Guid UsuarioId, int Codigo,string Nome, string? Cor) : IRequest<string>;
 }

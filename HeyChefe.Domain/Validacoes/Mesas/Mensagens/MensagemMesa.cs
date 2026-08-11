@@ -12,5 +12,7 @@ namespace HeyChefe.Domain.Validacoes.Mesas.Mensagens
         public static string MESA_NAO_DISPONIVEL = "A mesa não está disponível para adicionar pedidos.";
 
         public static string PEDIDO_NAO_PERTENCE_A_ESTA_MESA => "O pedido não pertence a esta mesa.";
+
+        public static string MESA_INDISPONIVEL => "Mesa indisponível no momento.";
     }
 }
