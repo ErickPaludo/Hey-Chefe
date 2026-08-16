@@ -1,20 +1,12 @@
 ﻿using HeyChefe.Domain.Entidades.Base;
-using HeyChefe.Domain.Entidades.Itens;
-using HeyChefe.Domain.Entidades.Itens.Enums;
 using HeyChefe.Domain.Entidades.Mesas;
-using HeyChefe.Domain.Entidades.Mesas.Enums;
 using HeyChefe.Domain.Entidades.Pedidos.Enums;
 using HeyChefe.Domain.Entidades.Usuarios;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Validacoes;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
-using HeyChefe.Domain.Validacoes.Item;
-using HeyChefe.Domain.Validacoes.Mesas.Mensagens;
 using HeyChefe.Domain.Validacoes.Pedidos;
 using HeyChefe.Domain.Validacoes.Pedidos.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HeyChefe.Domain.Entidades.Pedidos
 {
@@ -49,7 +41,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
 
         public static Pedido Create(Codigo numeroPedido,Mesa mesa, Usuario usuario) =>
             new Pedido(numeroPedido, mesa,usuario, 0);
-
+        public decimal ValorFinal() => LinhasPedido.Sum(x => x.Quantidade * x.Item.PrecoFinal.Valor);
         public void AdicionaLinhasPedidos(LinhaPedido linha)
         {
             ValidaNulo.Verifica(linha, MensagensPedido.LINHAS_INVALIDA);

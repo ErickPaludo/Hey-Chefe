@@ -1,5 +1,6 @@
 ﻿using HeyChefe.Domain.Entidades.Pedidos;
 using HeyChefe.Domain.Objetos_de_Valor;
+using HeyChefe.Domain.Teste;
 using HeyChefe.Infra.Data.Contexto;
 using HeyChefe.Infra.Data.Repositorios.Base;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,35 @@ namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
     {
         private readonly AppDbContext _contexto;
         public PedidoRepository(AppDbContext contexto) : base(contexto) => _contexto = contexto;
+
+        public async Task<IEnumerable<View>> SelectView()
+        {
+            return await _contexto.Pedidos
+                .AsNoTracking()
+                .Include(x => x.LinhasPedido)
+                .ThenInclude(x => x.Item)
+                .Include(x => x.Mesa)
+                .Include(x => x.Usuario)
+                .Select(x => new View(
+                        x.Id,
+                        x.NumeroPedido.Valor.ToString("d6"),
+                        x.Mesa.Id.ToString(),
+                        x.Situacao,
+                        x.LinhasPedido.Sum(lp => lp.Quantidade),
+                        x.ValorFinal(),
+                        new CriadorPedidoDTO(x.Usuario.Id, x.Usuario.Nome.Completo),
+                        x.LinhasPedido.Select(lp => new LinhaPedidoDTO(
+                         new ItemLinhaPedido(
+                         lp.Item.Id,
+                         lp.Item.Nome.Texto,
+                         lp.Item.Descricao != null ? lp.Item.Descricao.Texto : null,
+                         lp.Item.PrecoFinal.Valor
+                         ),
+                    lp.Situacao,
+                    lp.Cortesia
+                )).ToList()
+                )).ToListAsync();
+        }
 
         public async Task<Codigo> UltimoId()
         {

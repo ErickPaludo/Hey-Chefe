@@ -7,6 +7,7 @@ using HeyChefe.Domain.Entidades.Pedidos;
 using HeyChefe.Domain.Entidades.Usuarios;
 using HeyChefe.Domain.Interfaces;
 using HeyChefe.Domain.Objetos_de_Valor;
+using HeyChefe.Domain.Teste;
 using HeyChefe.Domain.Validacoes.Item;
 using HeyChefe.Domain.Validacoes.Mesas;
 using NetDevPack.SimpleMediator;
@@ -19,6 +20,11 @@ namespace HeyChefe.Application.CQRS.Pedidos.Handler
         public CriarPedidoHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
         public async Task<string> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
         {
+
+            //TESTE
+            IEnumerable<View> view = await _unitOfWork.pedidoRepository.SelectView();
+            //TESTE
+
             Usuario usuario = await _unitOfWork.ValidarUsuario(request.UsuarioId, PermissaoUsuario.CriarPedido);
 
             //Valida se a mesa Existe

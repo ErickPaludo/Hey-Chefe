@@ -2,18 +2,11 @@
 using HeyChefe.Domain.Entidades.Mesas.Enums;
 using HeyChefe.Domain.Entidades.Pedidos;
 using HeyChefe.Domain.Entidades.Pedidos.Enums;
-using HeyChefe.Domain.Entidades.Usuarios.Enums;
 using HeyChefe.Domain.Objetos_de_Valor;
-using HeyChefe.Domain.Validacoes.Base;
 using HeyChefe.Domain.Validacoes.Base.Mensagens;
 using HeyChefe.Domain.Validacoes.Mesas;
 using HeyChefe.Domain.Validacoes.Mesas.Mensagens;
 using HeyChefe.Domain.Validacoes.Pedidos.Mensagens;
-using HeyChefe.Domain.Validacoes.Usuarios;
-using HeyChefe.Domain.Validacoes.Usuarios.Mensagens;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HeyChefe.Domain.Entidades.Mesas
 {
@@ -55,7 +48,7 @@ namespace HeyChefe.Domain.Entidades.Mesas
             MesaValidacao.Verifica(!Pedidos.Contains(pedido), MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA);
             MesaValidacao.Verifica(!pedido.PermiteRemoverPedido(), MensagensPedido.PEDIDO_JA_INICIADO);
 
-             Pedidos.Remove(pedido);
+            Pedidos.Remove(pedido);
             Situacao = ESituacaoMesa.Ocupada;
         }
         public void AbandonoDeMesa(bool limparMesa)
