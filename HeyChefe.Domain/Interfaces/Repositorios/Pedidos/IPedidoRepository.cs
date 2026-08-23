@@ -10,7 +10,7 @@ namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
 {
     public interface IPedidoRepository : IBaseRepositorio<Pedido>
     {
-        Task<IEnumerable<View>> SelectView();
+        Task<IEnumerable<SelectPedidos>> SelectView();
         Task<Codigo> UltimoId();
     }
 }

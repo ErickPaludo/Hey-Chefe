@@ -12,7 +12,7 @@ namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
         private readonly AppDbContext _contexto;
         public PedidoRepository(AppDbContext contexto) : base(contexto) => _contexto = contexto;
 
-        public async Task<IEnumerable<View>> SelectView()
+        public async Task<IEnumerable<SelectPedidos>> SelectView()
         {
             return await _contexto.Pedidos
                 .AsNoTracking()
@@ -20,7 +20,7 @@ namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
                 .ThenInclude(x => x.Item)
                 .Include(x => x.Mesa)
                 .Include(x => x.Usuario)
-                .Select(x => new View(
+                .Select(x => new SelectPedidos(
                         x.Id,
                         x.NumeroPedido.Valor.ToString("d6"),
                         x.Mesa.Id.ToString(),

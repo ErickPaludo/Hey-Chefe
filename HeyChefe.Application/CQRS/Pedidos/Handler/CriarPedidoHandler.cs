@@ -22,7 +22,7 @@ namespace HeyChefe.Application.CQRS.Pedidos.Handler
         {
 
             //TESTE
-            IEnumerable<View> view = await _unitOfWork.pedidoRepository.SelectView();
+            IEnumerable<SelectPedidos> view = await _unitOfWork.pedidoRepository.SelectView();
             //TESTE
 
             Usuario usuario = await _unitOfWork.ValidarUsuario(request.UsuarioId, PermissaoUsuario.CriarPedido);

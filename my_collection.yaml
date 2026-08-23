@@ -1,0 +1,395 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: HeyChefe
+meta:
+  id: wrk_be9dbf34a3814979a796dfdd6b47f047
+  created: 1787516777009
+  modified: 1787521651268
+  description: ""
+collection:
+  - name: Usuarios
+    meta:
+      id: fld_559ef5172f74471eb97c3d714f0d93d4
+      created: 1787516799844
+      modified: 1787516799844
+      sortKey: -1787516799844
+      description: ""
+    children:
+      - url: "{{ _.base }}usuario/registrar"
+        name: Cadastra ADM
+        meta:
+          id: req_579a11107a894886bda880d2fcbb352c
+          created: 1787516802772
+          modified: 1787521754252
+          isPrivate: false
+          description: ""
+          sortKey: -1787516802772
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "primeiroNome": "Erick Augusto",
+              "segundoNome": "Paludo",
+              "email": "erickpaludoyt@gmail.com",
+              "senha": "Pld@fnc2404+",
+              "confirmarSenha": "Pld@fnc2404+"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}usuario/colaborador/registrar"
+        name: Cadastra Colaborador
+        meta:
+          id: req_9f5ec9a984d04beea812e04e3ec54b78
+          created: 1787521816737
+          modified: 1787521950360
+          isPrivate: false
+          description: ""
+          sortKey: -1787516802722
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "primeiroNome": "Colab",
+              "segundoNome": "colab",
+              "email": "colab@gmail.com",
+              "senha": "Pld@fnc2404+",
+              "confirmarSenha": "Pld@fnc2404+"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Autenticacao
+    meta:
+      id: fld_b520a2505cef45869fc1f14107a9779b
+      created: 1787521867470
+      modified: 1787521867470
+      sortKey: -1787521867470
+      description: ""
+    children:
+      - url: "{{ _.base }}Autenticacao/login"
+        name: Autenticacao
+        meta:
+          id: req_502c360bc3a049bcb3467833db710e93
+          created: 1787521875984
+          modified: 1787521911546
+          isPrivate: false
+          description: ""
+          sortKey: -1787521878811
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "erickpaludoyt@gmail.com",
+              "senha": "Pld@fnc2404+"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}Autenticacao/refresh"
+        name: Refesh
+        meta:
+          id: req_7537e0a5da594c3ea994b5f8b3f23f49
+          created: 1787521986108
+          modified: 1787522011425
+          isPrivate: false
+          description: ""
+          sortKey: -1787519340791.5
+        method: POST
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Categoria
+    meta:
+      id: fld_51582c2556ce401689bb34c49fb1eee2
+      created: 1787522041044
+      modified: 1787522041044
+      sortKey: -1787522041045
+      description: ""
+    children:
+      - url: "{{ _.base }}categoria"
+        name: Cadastra Categoria
+        meta:
+          id: req_627338b22f854acf977695b2897afb4d
+          created: 1787522052650
+          modified: 1787522079639
+          isPrivate: false
+          description: ""
+          sortKey: -1787522055393
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "codigo": 1,
+              "nome": "string",
+              "cor": null
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}categoria"
+        name: Categorias
+        meta:
+          id: req_aea4fc3962c947a3938bd015ca9e6580
+          created: 1787522117001
+          modified: 1787522122363
+          isPrivate: false
+          description: ""
+          sortKey: -1787521967102
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Item
+    meta:
+      id: fld_2c588eb57f7b4ecfb80db43f7f5c2718
+      created: 1787522137014
+      modified: 1787522137014
+      sortKey: -1787521954257.5
+      description: ""
+    children:
+      - url: "{{ _.base }}Item"
+        name: Itens
+        meta:
+          id: req_44c9ba97171a42eba476e324c96299de
+          created: 1787522137014
+          modified: 1787522219411
+          isPrivate: false
+          description: ""
+          sortKey: -1787521967102
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}item/criar"
+        name: Cadastra Item
+        meta:
+          id: req_d8844c1a9c7a4768a0a8ffa8c94abd11
+          created: 1787522137014
+          modified: 1787522201810
+          isPrivate: false
+          description: ""
+          sortKey: -1787522055393
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "codigo": 1,
+              "nome": "Batata frita",
+              "descricao": "Batatas fritas no óleo",
+              "precoCusto": 20,
+              "margemLucro": 4,
+              "categoriaId": null
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Mesa
+    meta:
+      id: fld_4f2b46cafd0f42189799d9a3b46baa13
+      created: 1787522279993
+      modified: 1787522279993
+      sortKey: -1787521910863.75
+      description: ""
+    children:
+      - url: "{{ _.base }}mesa"
+        name: Cadastra Mesa
+        meta:
+          id: req_68a93c7b54894ef39ee67c5bdff5741a
+          created: 1787522279993
+          modified: 1787522327456
+          isPrivate: false
+          description: ""
+          sortKey: -1787522055393
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "codigo": 5
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pedido
+    meta:
+      id: fld_6b04c69ad79f4182bd59ccaa060cb71f
+      created: 1787522360714
+      modified: 1787522360714
+      sortKey: -1787521932560.625
+      description: ""
+    children:
+      - url: "{{ _.base }}Pedido/criar"
+        name: Cadastra Pedido
+        meta:
+          id: req_8f8eb46b6251453894ca18dc08df6ac4
+          created: 1787522360714
+          modified: 1787522456823
+          isPrivate: false
+          description: ""
+          sortKey: -1787522055393
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "mesaId": "6952cebb-9744-475d-a416-356b88c662c1",
+              "prioridade": 0,
+              "linhasPedido": [
+                {
+                  "id": "4d58edf1-5187-4868-a948-68b6e16afa19",
+                  "quantidade": 1,
+                  "cortesia": false
+                }
+              ]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}pedido"
+        name: Itens
+        meta:
+          id: req_cb044d2ef7114e97945d55d89fe6c4ab
+          created: 1787522360714
+          modified: 1787523607969
+          isPrivate: false
+          description: ""
+          sortKey: -1787521967102
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_8dfe3c38df89120e6e2472ead87f67e6bd231bfc
+    created: 1787516777012
+    modified: 1787522011669
+  cookies:
+    - id: 7ac4cfd9-37b3-4e24-8097-ca9116a0302e
+      key: refreshToken
+      value: OVPGv0WQj4msuV1zvbB3C8VRT5LM4E0aYHRwqmKT2U0%3D
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_8dfe3c38df89120e6e2472ead87f67e6bd231bfc
+    created: 1787516777012
+    modified: 1787522021623
+    isPrivate: false
+  data:
+    base: https://localhost:7145/api/
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzMyNDhiMC05YTFlLTQ5MTktOTE4Zi1lMjJmN2RjNTUyNmUiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXRAZ21haWwuY29tIiwic2lkIjoiT1ZQR3YwV1FqNG1zdVYxenZiQjNDOFZSVDVMTTRFMGFZSFJ3cW1LVDJVMD0iLCJleHAiOjc3ODc1MjE5NTF9.pPvm7rhY8mnOP0vsemJS9mKQLBQRompD9qdqLPowoho
+    "": ""

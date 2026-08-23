@@ -1,4 +1,5 @@
 ﻿using HeyChefe.Application.CQRS.Pedidos.Command;
+using HeyChefe.Application.CQRS.Pedidos.Query;
 using HeyChefe.Application.DTOs.Pedidos.Post;
 using HeyChefe.UI.Api.Extensao;
 using Microsoft.AspNetCore.Authorization;
@@ -19,8 +20,12 @@ namespace HeyChefe.UI.Api.Controllers
         [HttpPost("criar")]
         public async Task<IActionResult> CriarPedido(CriarPedidoDTO pedidoDTO)
         {
-            string retorno = await _mediator.Send(new CriarPedidoCommand(User.GetId(),pedidoDTO.MesaId,pedidoDTO.Prioridade,pedidoDTO.LinhasPedido));
+            string retorno = await _mediator.Send(new CriarPedidoCommand(User.GetId(), pedidoDTO.MesaId,
+                pedidoDTO.Prioridade, pedidoDTO.LinhasPedido));
             return Ok(retorno);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RetornaPedidos() => Ok(await _mediator.Send(new PedidoQuery()));
     }
 }
