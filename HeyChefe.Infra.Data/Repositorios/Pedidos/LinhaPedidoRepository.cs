@@ -3,7 +3,7 @@ using HeyChefe.Domain.Interfaces.Repositorios.Base;
 using HeyChefe.Infra.Data.Contexto;
 using HeyChefe.Infra.Data.Repositorios.Base;
 
-namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
+namespace HeyChefe.Infra.Data.Repositorios.Pedidos
 {
     public class LinhaPedidoRepository : BaseRepositorio<LinhaPedido>, ILinhaPedidoRepository
     {

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HeyChefe.Domain.Interfaces.Repositorios.Pedidos
+namespace HeyChefe.Infra.Data.Repositorios.Pedidos
 {
     public interface ILinhaPedidoRepository : IBaseRepositorio<LinhaPedido>
     {

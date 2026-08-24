@@ -275,10 +275,10 @@ collection:
         meta:
           id: req_68a93c7b54894ef39ee67c5bdff5741a
           created: 1787522279993
-          modified: 1787522327456
+          modified: 1787534470176
           isPrivate: false
           description: ""
-          sortKey: -1787522055393
+          sortKey: -1787522055593
         method: POST
         body:
           mimeType: application/json
@@ -289,6 +289,27 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base }}mesa"
+        name: Mesa
+        meta:
+          id: req_77b8bf1d0c5642729d93ad35e206835e
+          created: 1787534463709
+          modified: 1787535591424
+          isPrivate: false
+          description: ""
+          sortKey: -1787522055493
+        method: GET
         authentication:
           type: bearer
           token: "{{ _.token }}"
@@ -313,7 +334,7 @@ collection:
         meta:
           id: req_8f8eb46b6251453894ca18dc08df6ac4
           created: 1787522360714
-          modified: 1787522456823
+          modified: 1787534338056
           isPrivate: false
           description: ""
           sortKey: -1787522055393
@@ -327,7 +348,7 @@ collection:
               "linhasPedido": [
                 {
                   "id": "4d58edf1-5187-4868-a948-68b6e16afa19",
-                  "quantidade": 1,
+                  "quantidade": 5,
                   "cortesia": false
                 }
               ]
@@ -347,11 +368,11 @@ collection:
             store: true
           rebuildPath: true
       - url: "{{ _.base }}pedido"
-        name: Itens
+        name: Pedidos
         meta:
           id: req_cb044d2ef7114e97945d55d89fe6c4ab
           created: 1787522360714
-          modified: 1787523607969
+          modified: 1787534430701
           isPrivate: false
           description: ""
           sortKey: -1787521967102

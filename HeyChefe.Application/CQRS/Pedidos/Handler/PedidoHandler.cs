@@ -1,11 +1,11 @@
 using HeyChefe.Application.CQRS.Pedidos.Query;
 using HeyChefe.Domain.Interfaces;
-using HeyChefe.Domain.Teste;
+using HeyChefe.Domain.Consultas.Pedido;
 using NetDevPack.SimpleMediator;
 
 namespace HeyChefe.Application.CQRS.Pedidos.Handler;
 
-public class PedidoHandler : IRequestHandler<PedidoQuery,IEnumerable<SelectPedidos>>
+public class PedidoHandler : IRequestHandler<PedidoQuery,IEnumerable<PedidosView>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +14,9 @@ public class PedidoHandler : IRequestHandler<PedidoQuery,IEnumerable<SelectPedid
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<SelectPedidos>> Handle(PedidoQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PedidosView>> Handle(PedidoQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<SelectPedidos> pedidos = await _unitOfWork.pedidoRepository.SelectView();
+        IEnumerable<PedidosView> pedidos = await _unitOfWork.pedidoRepository.SelectView();
         return pedidos;
     }
 }

@@ -4,7 +4,7 @@ using HeyChefe.Domain.Interfaces;
 using HeyChefe.Domain.Interfaces.Repositorios.Categorias;
 using HeyChefe.Domain.Interfaces.Repositorios.Itens;
 using HeyChefe.Domain.Interfaces.Repositorios.Mesas;
-using HeyChefe.Domain.Interfaces.Repositorios.Pedidos;
+using HeyChefe.Infra.Data.Repositorios.Pedidos;
 using HeyChefe.Domain.Interfaces.Repositorios.Segurança;
 using HeyChefe.Domain.Interfaces.Repositorios.Usuarios;
 using HeyChefe.Infra.Data.Contexto;

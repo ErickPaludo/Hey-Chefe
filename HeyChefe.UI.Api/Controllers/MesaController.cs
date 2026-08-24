@@ -1,4 +1,5 @@
 ﻿using HeyChefe.Application.CQRS.Mesas.Command;
+using HeyChefe.Application.CQRS.Mesas.Query;
 using HeyChefe.Application.DTOs.Mesas.Post;
 using HeyChefe.UI.Api.Extensao;
 using Microsoft.AspNetCore.Authorization;
@@ -20,5 +21,8 @@ namespace HeyChefe.UI.Api.Controllers
             string retorno = await _mediator.Send(new CriarMesaCommand(User.GetId(),criarMesaDTO.Codigo));
             return Ok(retorno);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Retornar() => Ok(await _mediator.Send(new MesaQuery()));
     }
 }
