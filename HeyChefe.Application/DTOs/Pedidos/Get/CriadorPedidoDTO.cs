@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace HeyChefe.Domain.Consultas.Pedido;
 
-namespace HeyChefe.Application.DTOs.Pedidos.Get
-{
-    public record CriadorPedidoDTO(Guid Id,string NomeCompleto);
-}
+public record CriadorPedidoView(Guid Id, string NomeCompleto);
