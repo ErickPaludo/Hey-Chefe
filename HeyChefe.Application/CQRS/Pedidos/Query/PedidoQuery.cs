@@ -3,4 +3,4 @@ using NetDevPack.SimpleMediator;
 
 namespace HeyChefe.Application.CQRS.Pedidos.Query;
 
-public record PedidoQuery() : IRequest<IEnumerable<PedidosView>>;
+public record PedidoQuery() : IRequest<IEnumerable<PedidosDTO>>;

@@ -1,22 +1,24 @@
 using HeyChefe.Application.CQRS.Pedidos.Query;
+using HeyChefe.Application.Interfaces.Repository;
 using HeyChefe.Domain.Interfaces;
 using HeyChefe.Domain.Consultas.Pedido;
 using NetDevPack.SimpleMediator;
 
 namespace HeyChefe.Application.CQRS.Pedidos.Handler;
 
-public class PedidoHandler : IRequestHandler<PedidoQuery,IEnumerable<PedidosView>>
+public class PedidoHandler : IRequestHandler<PedidoQuery,IEnumerable<PedidosDTO>>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPedidoAppRepository _pedidosAppRepository;
+    
 
-    public PedidoHandler(IUnitOfWork unitOfWork)
+    public PedidoHandler(IPedidoAppRepository pedidosAppRepository)
     {
-        _unitOfWork = unitOfWork;
+        _pedidosAppRepository = pedidosAppRepository;
     }
 
-    public async Task<IEnumerable<PedidosView>> Handle(PedidoQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PedidosDTO>> Handle(PedidoQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<PedidosView> pedidos = await _unitOfWork.pedidoRepository.SelectView();
-        return pedidos;
+         IEnumerable<PedidosDTO> pedidos = await _pedidosAppRepository.SelecionaPedidos();
+         return pedidos;
     }
 }

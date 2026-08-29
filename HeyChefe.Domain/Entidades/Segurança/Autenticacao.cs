@@ -24,7 +24,7 @@ namespace HeyChefe.Domain.Entidades.Segurança
             ValidaNulo.Verifica(usuario, MensagensBase.USUARIO_NULO);
             ValidaNulo.Verifica(refreshToken, MensagensBase.REFRESH_TOKEN_NULO);
             ValidaNulo.Verifica(expirationRefresh, MensagensBase.EXPIRATION_REFRESH_NULO);
-            IdSession = Guid.NewGuid().ToString();
+            IdSession = Guid.CreateVersion7().ToString();
             Usuario = usuario;
             RefreshToken = refreshToken;
             ExpirationRefresh = expirationRefresh;

@@ -1,3 +1,3 @@
 namespace HeyChefe.Domain.Consultas.Pedido;
 
-public record PedidosView(PedidoView Pedido);
+public record PedidosDTO(PedidoDTO Pedido);

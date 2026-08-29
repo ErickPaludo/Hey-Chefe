@@ -1,4 +1,5 @@
-﻿using HeyChefe.Domain.Entidades.Pedidos;
+﻿using HeyChefe.Application.Interfaces.Repository;
+using HeyChefe.Domain.Entidades.Pedidos;
 using HeyChefe.Domain.Objetos_de_Valor;
 using HeyChefe.Domain.Consultas.Pedido;
 using HeyChefe.Infra.Data.Contexto;
@@ -7,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeyChefe.Infra.Data.Repositorios.Pedidos
 {
-    public class PedidoRepository : BaseRepositorio<Pedido>, IPedidoRepository
+    public class PedidoRepository : BaseRepositorio<Pedido>, IPedidoRepository,IPedidoAppRepository
     {
         private readonly AppDbContext _contexto;
         public PedidoRepository(AppDbContext contexto) : base(contexto) => _contexto = contexto;
 
-        public async Task<IEnumerable<PedidosView>> SelectView()
+        public async Task<IEnumerable<PedidosDTO>> SelecionaPedidos()
         {
             return await _contexto.Pedidos
                 .AsNoTracking()
@@ -20,18 +21,18 @@ namespace HeyChefe.Infra.Data.Repositorios.Pedidos
                 .ThenInclude(x => x.Item)
                 .Include(x => x.Mesa)
                 .Include(x => x.Usuario)
-                .Select(x => new PedidosView(
-                        new PedidoView(new PedidoCabecalhoView(
+                .Select(x => new PedidosDTO(
+                        new PedidoDTO(new PedidoCabecalhoDTO(
                                 x.Id,
                                 x.NumeroPedido.Valor.ToString("d6"),
                                 x.Mesa.Id.ToString(),
                                 x.Situacao,
                                 x.LinhasPedido.Sum(lp => lp.Quantidade),
                                 x.ValorFinal(),
-                                new CriadorPedidoView(x.Usuario.Id, x.Usuario.Nome.Completo),
+                                new CriadorPedidoDTO(x.Usuario.Id, x.Usuario.Nome.Completo),
                                 x.LinhasPedido
-                                    .Select(lp => new LinhaPedidoView(
-                                            new ItemLinhaPedidoView(
+                                    .Select(lp => new LinhaPedidoDTO(
+                                            new ItemLinhaPedidoDTO(
                                                 lp.Item.Id,
                                                 lp.Item.Nome.Texto,
                                                 lp.Item.Descricao != null ?
