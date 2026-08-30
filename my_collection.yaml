@@ -232,7 +232,7 @@ collection:
         meta:
           id: req_d8844c1a9c7a4768a0a8ffa8c94abd11
           created: 1787522137014
-          modified: 1787522201810
+          modified: 1788106824142
           isPrivate: false
           description: ""
           sortKey: -1787522055393
@@ -241,11 +241,11 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "codigo": 1,
-              "nome": "Batata frita",
-              "descricao": "Batatas fritas no óleo",
-              "precoCusto": 20,
-              "margemLucro": 4,
+              "codigo": 2,
+              "nome": "Bife de frango",
+              "descricao": "Bife de frango sem acompanhamento",
+              "precoCusto": 10,
+              "margemLucro": 7,
               "categoriaId": null
             }
         headers:
@@ -275,7 +275,7 @@ collection:
         meta:
           id: req_68a93c7b54894ef39ee67c5bdff5741a
           created: 1787522279993
-          modified: 1787534470176
+          modified: 1788106750600
           isPrivate: false
           description: ""
           sortKey: -1787522055593
@@ -284,7 +284,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "codigo": 5
+              "codigo": 2
             }
         headers:
           - name: Content-Type
@@ -334,7 +334,7 @@ collection:
         meta:
           id: req_8f8eb46b6251453894ca18dc08df6ac4
           created: 1787522360714
-          modified: 1787534338056
+          modified: 1788107045336
           isPrivate: false
           description: ""
           sortKey: -1787522055393
@@ -343,12 +343,17 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "mesaId": "6952cebb-9744-475d-a416-356b88c662c1",
+              "mesaId": "01a05377-c109-72c7-b4f1-8188a060061a",
               "prioridade": 0,
               "linhasPedido": [
                 {
-                  "id": "4d58edf1-5187-4868-a948-68b6e16afa19",
-                  "quantidade": 5,
+                  "ItemId": "01a0536d-0d65-7e68-9d53-1bfd9581b1ca",
+                  "quantidade": 1,
+                  "cortesia": false
+                },
+            		{
+                  "ItemId": "01a05378-e0e5-7990-aa0c-1bdb4d190973",
+                  "quantidade": 2,
                   "cortesia": false
                 }
               ]
@@ -372,7 +377,7 @@ collection:
         meta:
           id: req_cb044d2ef7114e97945d55d89fe6c4ab
           created: 1787522360714
-          modified: 1787534430701
+          modified: 1788107773529
           isPrivate: false
           description: ""
           sortKey: -1787521967102
@@ -393,11 +398,11 @@ cookieJar:
   meta:
     id: jar_8dfe3c38df89120e6e2472ead87f67e6bd231bfc
     created: 1787516777012
-    modified: 1787522011669
+    modified: 1788106006794
   cookies:
-    - id: 7ac4cfd9-37b3-4e24-8097-ca9116a0302e
+    - id: a1f35924-0ddd-44fa-a2d2-bbad724fdb1a
       key: refreshToken
-      value: OVPGv0WQj4msuV1zvbB3C8VRT5LM4E0aYHRwqmKT2U0%3D
+      value: e5ETWWia0XtnHgUKCcRI2G2JtEyrs0yoQoG%2B%2B3mGfmY%3D
       domain: localhost
       path: /
       secure: true
@@ -408,9 +413,9 @@ environments:
   meta:
     id: env_8dfe3c38df89120e6e2472ead87f67e6bd231bfc
     created: 1787516777012
-    modified: 1787522021623
+    modified: 1788106032016
     isPrivate: false
   data:
     base: https://localhost:7145/api/
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzMyNDhiMC05YTFlLTQ5MTktOTE4Zi1lMjJmN2RjNTUyNmUiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXRAZ21haWwuY29tIiwic2lkIjoiT1ZQR3YwV1FqNG1zdVYxenZiQjNDOFZSVDVMTTRFMGFZSFJ3cW1LVDJVMD0iLCJleHAiOjc3ODc1MjE5NTF9.pPvm7rhY8mnOP0vsemJS9mKQLBQRompD9qdqLPowoho
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWEwNTM2Yy0zYzY2LTczMzYtYTVhMy00MzZhZWQxYzM5YjQiLCJlbWFpbCI6ImVyaWNrcGFsdWRveXRAZ21haWwuY29tIiwic2lkIjoiZTVFVFdXaWEwWHRuSGdVS0NjUkkyRzJKdEV5cnMweW9Rb0crKzNtR2ZtWT0iLCJleHAiOjc3ODgxMDU5NDZ9.5PBsk_mQpuh3U9uz5Gd8sSdxwPYanIcScNLICc11ZjQ
     "": ""

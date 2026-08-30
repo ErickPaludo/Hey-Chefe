@@ -154,7 +154,8 @@ namespace HeyChefe.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MesaId");
+                    b.HasIndex("MesaId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -442,9 +443,9 @@ namespace HeyChefe.Infra.Data.Migrations
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
                 {
                     b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", "Mesa")
-                        .WithMany("Pedidos")
-                        .HasForeignKey("MesaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("Pedido")
+                        .HasForeignKey("HeyChefe.Domain.Entidades.Pedidos.Pedido", "MesaId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
@@ -573,7 +574,7 @@ namespace HeyChefe.Infra.Data.Migrations
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Mesas.Mesa", b =>
                 {
-                    b.Navigation("Pedidos");
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>

@@ -1,5 +1,6 @@
 ﻿using HeyChefe.Application.Comun.Enums;
 using HeyChefe.Application.CQRS.Pedidos.Command;
+using HeyChefe.Application.Exceções;
 using HeyChefe.Application.Services.PermissoesUsuarios;
 using HeyChefe.Domain.Entidades.Itens;
 using HeyChefe.Domain.Entidades.Mesas;
@@ -25,7 +26,7 @@ namespace HeyChefe.Application.CQRS.Pedidos.Handler
             //Valida se a mesa Existe
             Mesa? mesa = await _unitOfWork.mesaRepository.BuscarObjetoUnico(x => x.Id == request.MesaId);
             if (mesa is null)
-                throw new MesaValidacao("Mesa não encontrada");
+                throw new ExceptionNaoEncontrado("Mesa não encontrada");
 
             //Busca ultimo Id do pedido
             Codigo codigo = await _unitOfWork.pedidoRepository.UltimoId();
@@ -35,7 +36,9 @@ namespace HeyChefe.Application.CQRS.Pedidos.Handler
             //Loop para criar linhas pedidos
             foreach (var linha in request.ItensPedido)
             {
-                Item? item = await _unitOfWork.itemRepositorio.BuscarObjetoUnico(x => x.Id == linha.Id);
+                Item? item = await _unitOfWork.itemRepositorio.BuscarObjetoUnico(x => x.Id == linha.ItemId);
+                if (item is null)
+                    throw new ExceptionNaoEncontrado("O item informado não está cadastrado.");
                 LinhaPedido linhaPedido = LinhaPedido.Create(pedido, item!, linha.Quantidade, linha.Cortesia);
                 await _unitOfWork.linhaPedidoRepository.Adicionar(linhaPedido);
             }

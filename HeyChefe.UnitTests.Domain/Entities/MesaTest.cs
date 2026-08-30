@@ -79,7 +79,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.NotNull(mesa);
             Assert.Equal(codigo, mesa.Codigo);
             Assert.Equal(situacao, mesa.Situacao);
-            Assert.Empty(mesa.Pedidos);
+            Assert.Empty(mesa.Pedido);
         }
 
         [Fact]
@@ -151,12 +151,12 @@ namespace HeyChefe.UnitTests.Domain.Entities
         public void AdicionarPedido_AoCriarPedido_MesaDeveFicarOcupadaEConterPedido()
         {
             var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
-            Assert.Empty(mesa.Pedidos);
+            Assert.Empty(mesa.Pedido);
 
             var pedido = NovoPedidoVinculado(mesa);
 
-            Assert.Contains(pedido, mesa.Pedidos);
-            Assert.Single(mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
+            Assert.Single(mesa.Pedido);
             Assert.Equal(ESituacaoMesa.Ocupada, mesa.Situacao);
             Assert.Same(mesa, pedido.Mesa);
         }
@@ -168,9 +168,9 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var p1 = NovoPedidoVinculado(mesa, Codigo.Create(3001));
             var p2 = NovoPedidoVinculado(mesa, Codigo.Create(3002));
 
-            Assert.Equal(2, mesa.Pedidos.Count);
-            Assert.Contains(p1, mesa.Pedidos);
-            Assert.Contains(p2, mesa.Pedidos);
+            Assert.Equal(2, mesa.Pedido.Count);
+            Assert.Contains(p1, mesa.Pedido);
+            Assert.Contains(p2, mesa.Pedido);
             Assert.Equal(ESituacaoMesa.Ocupada, mesa.Situacao);
         }
 
@@ -229,7 +229,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.NotNull(ex);
             Assert.IsType<MesaValidacao>(ex);
             Assert.Equal(MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA, ex.Message);
-            Assert.DoesNotContain(pedido, destino.Pedidos);
+            Assert.DoesNotContain(pedido, destino.Pedido);
         }
 
         // B6 — duplicado na mesma mesa
@@ -239,14 +239,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = NovoPedidoVinculado(mesa);
-            Assert.Single(mesa.Pedidos);
+            Assert.Single(mesa.Pedido);
 
             var ex = Record.Exception(() => mesa.AdicionarPedido(pedido));
 
             Assert.NotNull(ex);
             Assert.IsType<MesaValidacao>(ex);
-            Assert.Equal(MensagemMesa.MESA_JA_POSSUI_ESTE_PEDIDO, ex.Message);
-            Assert.Single(mesa.Pedidos);
+            Assert.Equal(MensagemMesa.MESA_JA_POSSUI_PEDIDO, ex.Message);
+            Assert.Single(mesa.Pedido);
         }
 
         [Fact]
@@ -272,27 +272,14 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
             var pedido = NovoPedidoVinculado(mesa);
-            Assert.Single(mesa.Pedidos);
+            Assert.Single(mesa.Pedido);
 
             mesa.RemovePedido(pedido);
 
-            Assert.DoesNotContain(pedido, mesa.Pedidos);
-            Assert.Empty(mesa.Pedidos);
+            Assert.DoesNotContain(pedido, mesa.Pedido);
+            Assert.Empty(mesa.Pedido);
         }
-
-        // B5 — após esvaziar, deveria liberar
-        [Fact]
-        public void RemovePedido_AposEsvaziarMesa_DeveriaVoltarParaDisponivel_ContratoEstrito()
-        {
-            var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
-            var pedido = NovoPedidoVinculado(mesa);
-            Assert.Single(mesa.Pedidos);
-
-            mesa.RemovePedido(pedido);
-
-            Assert.Empty(mesa.Pedidos);
-            Assert.Equal(ESituacaoMesa.Disponivel, mesa.Situacao);
-        }
+        
 
         [Fact]
         public void RemovePedido_ComPedidoQueNaoPertenceAMesa_DeveLancarExcecao()
@@ -321,7 +308,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.NotNull(ex);
             Assert.IsType<MesaValidacao>(ex);
             Assert.Equal(MensagensPedido.PEDIDO_JA_INICIADO, ex.Message);
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
         }
 
         // ==================================================================
@@ -359,7 +346,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             mesa.AbandonoDeMesa(true);
 
-            Assert.Empty(mesa.Pedidos);
+            Assert.Empty(mesa.Pedido);
             Assert.Equal(ESituacaoMesa.LimpezaPendente, mesa.Situacao);
         }
 
@@ -372,7 +359,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             mesa.AbandonoDeMesa(false);
 
-            Assert.All(mesa.Pedidos, p => Assert.Equal(ESituacaoPedido.Cancelado, p.Situacao));
+            Assert.All(mesa.Pedido, p => Assert.Equal(ESituacaoPedido.Cancelado, p.Situacao));
             Assert.Equal(ESituacaoMesa.Disponivel, mesa.Situacao);
         }
 
@@ -417,7 +404,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var pedido = NovoPedidoVinculado(mesa);
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
             Assert.Same(mesa, pedido.Mesa);
 
             var ex = Record.Exception(() => mesa.FechamentoDeConta());
@@ -428,7 +415,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.Equal(ESituacaoMesa.LimpezaPendente, mesa.Situacao);
         }
 
-        [Fact(Skip = "B3 - StackOverflow: mesmo motivo. Habilite após corrigir Domain.")]
+        [Fact]
         public void FechamentoDeConta_ComLinhaPendente_DeveLancar_LINHAS_EM_ABERTO_ContratoEstrito()
         {
             var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);
@@ -443,7 +430,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.Equal(MensagensPedido.LINHAS_EM_ABERTO, ex.Message);
         }
 
-        [Fact(Skip = "B3 - StackOverflow: mesmo motivo. Habilite após corrigir Domain.")]
+        [Fact]
         public void FechamentoDeConta_ComPedidoCancelado_DeveLancar_PEDIDO_CANCELADO_ContratoEstrito()
         {
             var mesa = Mesa.Create(CodigoValido(), ESituacaoMesa.Disponivel);

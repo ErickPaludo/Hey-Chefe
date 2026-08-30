@@ -40,6 +40,12 @@ namespace HeyChefe.Infra.Data.ConfigTable
                 .WithMany()
                 .HasForeignKey("UsuarioId")
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            builder.HasOne(i => i.Mesa)
+                .WithOne(m => m.Pedido)
+                .HasForeignKey<Pedido>("MesaId")
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
             #endregion
         }
     }

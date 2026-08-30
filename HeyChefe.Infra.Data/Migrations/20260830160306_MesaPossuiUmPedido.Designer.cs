@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeyChefe.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260810223904_FkPedidosNaLinhaPedidos")]
-    partial class FkPedidosNaLinhaPedidos
+    [Migration("20260830160306_MesaPossuiUmPedido")]
+    partial class MesaPossuiUmPedido
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace HeyChefe.Infra.Data.Migrations
                     b.Property<DateTime?>("Fechamento")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("MesaId")
+                    b.Property<Guid>("MesaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Prioridade")
@@ -157,7 +157,8 @@ namespace HeyChefe.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MesaId");
+                    b.HasIndex("MesaId")
+                        .IsUnique();
 
                     b.HasIndex("UsuarioId");
 
@@ -444,9 +445,11 @@ namespace HeyChefe.Infra.Data.Migrations
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>
                 {
-                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", null)
-                        .WithMany("Pedidos")
-                        .HasForeignKey("MesaId");
+                    b.HasOne("HeyChefe.Domain.Entidades.Mesas.Mesa", "Mesa")
+                        .WithOne("Pedido")
+                        .HasForeignKey("HeyChefe.Domain.Entidades.Pedidos.Pedido", "MesaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("HeyChefe.Domain.Entidades.Usuarios.Usuario", "Usuario")
                         .WithMany()
@@ -473,6 +476,8 @@ namespace HeyChefe.Infra.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("PedidoId");
                         });
+
+                    b.Navigation("Mesa");
 
                     b.Navigation("NumeroPedido")
                         .IsRequired();
@@ -572,7 +577,7 @@ namespace HeyChefe.Infra.Data.Migrations
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Mesas.Mesa", b =>
                 {
-                    b.Navigation("Pedidos");
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("HeyChefe.Domain.Entidades.Pedidos.Pedido", b =>

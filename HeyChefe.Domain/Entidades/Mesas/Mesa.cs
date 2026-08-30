@@ -16,7 +16,7 @@ namespace HeyChefe.Domain.Entidades.Mesas
     {
         public Codigo Codigo { get; }
         public ESituacaoMesa Situacao { get; private set; }
-        public List<Pedido> Pedidos { get; private set; } = new List<Pedido>();
+        public Pedido? Pedido { get; private set; }
 
         public Mesa()
         {
@@ -24,7 +24,7 @@ namespace HeyChefe.Domain.Entidades.Mesas
 
         private Mesa(Codigo codigo, ESituacaoMesa situacao)
         {
-            ValidaNulo.Verifica(codigo,MensagensCodigo.CODIGO_OBRIGATORIO);
+            ValidaNulo.Verifica(codigo, MensagensCodigo.CODIGO_OBRIGATORIO);
             MesaValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoMesa), situacao), MensagensBase.SITUACAO_INVALIDA);
             Codigo = codigo;
             Situacao = situacao;
@@ -44,35 +44,37 @@ namespace HeyChefe.Domain.Entidades.Mesas
 
         public void AdicionarPedido(Pedido pedido)
         {
+            ValidaNulo.Verifica(pedido, MensagemMesa.PEDIDO_DEVE_SER_INFORMADO);
             MesaValidacao.Verifica(pedido.Mesa != this, MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA);
             MesaValidacao.Verifica(Situacao == ESituacaoMesa.LimpezaPendente, MensagemMesa.MESA_NAO_DISPONIVEL);
-            MesaValidacao.Verifica(Pedidos.Contains(pedido), MensagemMesa.MESA_JA_POSSUI_ESTE_PEDIDO);
+            MesaValidacao.Verifica(Pedido is not null, MensagemMesa.MESA_JA_POSSUI_PEDIDO);
 
             if (Situacao == ESituacaoMesa.Disponivel)
                 OcuparMesa();
 
-            Pedidos.Add(pedido);
+            Pedido = pedido;
             Situacao = ESituacaoMesa.Ocupada;
         }
 
         public void RemovePedido(Pedido pedido)
         {
-            MesaValidacao.Verifica(!Pedidos.Contains(pedido), MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA);
+            MesaValidacao.Verifica(Pedido is null, MensagemMesa.MESA_SEM_PEDIDO);
+            MesaValidacao.Verifica(Pedido != pedido, MensagemMesa.PEDIDO_NAO_PERTENCE_A_ESTA_MESA);
             MesaValidacao.Verifica(!pedido.PermiteRemoverPedido(), MensagensPedido.PEDIDO_JA_INICIADO);
-
-            Pedidos.Remove(pedido);
-            Situacao = ESituacaoMesa.Ocupada;
         }
 
         public void AbandonoDeMesa(bool limparMesa)
         {
-            AlteraSituacaoPedidos(ESituacaoPedido.Cancelado);
+            if (Pedido is not null)
+                MesaValidacao.Verifica(Pedido.PermiteRemoverPedido(), MensagemMesa.EXISTEM_PEDIDOS_CONCLUIDOS);
+            
             Situacao = limparMesa ? ESituacaoMesa.LimpezaPendente : ESituacaoMesa.Disponivel;
         }
 
         public void FechamentoDeConta()
         {
-            AlteraSituacaoPedidos(ESituacaoPedido.Concluido);
+            ValidaNulo.Verifica(Pedido,MensagemMesa.MESA_SEM_PEDIDO);
+            Pedido.SituacaoConcluido();
             Situacao = ESituacaoMesa.LimpezaPendente;
         }
 
@@ -80,18 +82,6 @@ namespace HeyChefe.Domain.Entidades.Mesas
         {
             MesaValidacao.Verifica(!Enum.IsDefined(typeof(ESituacaoMesa), situacao), MensagensBase.SITUACAO_INVALIDA);
             Situacao = situacao;
-        }
-
-        private void AlteraSituacaoPedidos(ESituacaoPedido situacao)
-        {
-            foreach (var pedido in Pedidos)
-            {
-                if (situacao == ESituacaoPedido.Cancelado)
-                    pedido.SituacaoCancelado();
-
-                else if (situacao == ESituacaoPedido.Concluido)
-                    pedido.SituacaoConcluido();
-            }
         }
     }
 }

@@ -80,7 +80,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             Assert.Equal(ESituacaoPedido.Pendente, pedido.Situacao);
             Assert.Null(pedido.Fechamento);
             Assert.Empty(pedido.LinhasPedido);
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
             Assert.Equal(ESituacaoMesa.Ocupada, mesa.Situacao);
         }
 
@@ -92,7 +92,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             var pedido = Pedido.Create(NumeroPedidoValido(), mesa, UsuarioValido());
 
             Assert.Equal(0, pedido.Prioridade);
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
 
             var pedido = Pedido.Create(NumeroPedidoValido(), mesa, UsuarioValido());
 
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
             Assert.Equal(ESituacaoMesa.Ocupada, mesa.Situacao);
             Assert.Same(mesa, pedido.Mesa);
         }
@@ -192,7 +192,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(901), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido); // isola para não poluir outros testes, mas mantém bug visível
+            mesa.Pedido.Remove(pedido); // isola para não poluir outros testes, mas mantém bug visível
 
             pedido.AtualizarPrioridade(-1);
 
@@ -378,7 +378,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             // mas mantém expectativa estrita: Concluido não pode voltar a Iniciado
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(916), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
             pedido.SituacaoConcluido();
@@ -406,7 +406,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(917), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
 
             pedido.SituacaoConcluido();
 
@@ -419,7 +419,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida(); // Disponivel
             var pedido = Pedido.Create(Codigo.Create(918), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido); // desvincula para não estourar pilha, mas mantém referência pedido.Mesa == mesa
+            mesa.Pedido.Remove(pedido); // desvincula para não estourar pilha, mas mantém referência pedido.Mesa == mesa
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
             Assert.Equal(ESituacaoMesa.Disponivel, mesa.Situacao);
@@ -438,7 +438,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(919), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Pronto);
 
@@ -452,7 +452,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(920), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Pendente);
 
@@ -469,7 +469,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(921), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var l1 = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             var l2 = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             l1.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
@@ -500,7 +500,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(923), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var antes = DateTime.UtcNow.AddSeconds(-1);
 
             pedido.SituacaoConcluido();
@@ -521,7 +521,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
             // NÃO remove — pedido está em mesa.Pedidos (cenário real)
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
-            Assert.Contains(pedido, mesa.Pedidos);
+            Assert.Contains(pedido, mesa.Pedido);
 
             var ex = Record.Exception(() => pedido.SituacaoConcluido());
 
@@ -577,7 +577,7 @@ namespace HeyChefe.UnitTests.Domain.Entities
         {
             var mesa = MesaValida();
             var pedido = Pedido.Create(Codigo.Create(928), mesa, UsuarioValido(), 0);
-            mesa.Pedidos.Remove(pedido);
+            mesa.Pedido.Remove(pedido);
             var linha = LinhaPedido.Create(pedido, ItemValido(), 1, false);
             linha.AtualizarSituacao(ESituacaoLinhaPedido.Concluido);
             pedido.SituacaoConcluido();

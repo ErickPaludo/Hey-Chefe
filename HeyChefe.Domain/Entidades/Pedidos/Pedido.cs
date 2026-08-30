@@ -44,10 +44,11 @@ namespace HeyChefe.Domain.Entidades.Pedidos
         public decimal ValorFinal() => LinhasPedido.Sum(x => x.Quantidade * x.Item.PrecoFinal.Valor);
         public void AdicionaLinhasPedidos(LinhaPedido linha)
         {
+            PedidoValidacao.Verifica(Fechamento is not null,MensagensPedido.PEDIDO_FATURADO);
             ValidaNulo.Verifica(linha, MensagensPedido.LINHAS_INVALIDA);
             LinhasPedido.Add(linha);
         }
-        public bool PermiteRemoverPedido() => !LinhasPedido.Any(p => p.Iniciado());
+        public bool PermiteRemoverPedido() => Fechamento is not null && !LinhasPedido.Any(p => p.Iniciado());
         #region Atualização
         #region Situacao
         public void SituacaoPendente()
@@ -77,7 +78,6 @@ namespace HeyChefe.Domain.Entidades.Pedidos
             PedidoValidacao.Verifica(LinhasPedido.Any(p => !p.Iniciado()), MensagensPedido.LINHAS_EM_ABERTO);
             Situacao = ESituacaoPedido.Concluido;
             Fechamento = DateTime.UtcNow;
-            Mesa.FechamentoDeConta();
         }
         #endregion
         public void AtualizarPrioridade(int prioridade)
