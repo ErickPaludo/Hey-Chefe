@@ -26,7 +26,7 @@ namespace HeyChefe.Domain.Entidades.Pedidos
             ValidaNulo.Verifica(mesa, MensagensBase.MESA_INVALIDA);
             ValidaNulo.Verifica(numeroPedido, MensagensBase.CODIGO_OBRIGATORIO);
             ValidaNulo.Verifica(usuario, MensagensBase.USUARIO_OBRIGATORIO);
-
+            
             NumeroPedido = numeroPedido;
             Mesa = mesa;
             Usuario = usuario;
